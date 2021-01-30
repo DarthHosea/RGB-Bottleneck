@@ -72,6 +72,12 @@ include_once("includes/navbar.php");
                             <div class="md-form mt-0">
                                 <input type="email" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')">
                                 <label for="materialRegisterFormEmail">E-mail</label>
+                                <div class="valid-feedback">
+                                    Super!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Unesite e-mail.
+                                </div>
                             </div>
 
                             <!-- Password -->
@@ -81,6 +87,12 @@ include_once("includes/navbar.php");
                                 <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
                                     At least 8 characters and 1 digit
                                 </small>
+                                <div class="valid-feedback">
+                                    Super!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Unesite lozinku.
+                                </div>
                             </div>
 
 
@@ -91,6 +103,12 @@ include_once("includes/navbar.php");
                                 <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
                                     At least 8 characters and 1 digit
                                 </small>
+                                <div class="valid-feedback">
+                                    Super!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Ponovite lozinku.
+                                </div>
                             </div>
 
 

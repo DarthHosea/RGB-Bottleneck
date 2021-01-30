@@ -17,15 +17,27 @@ if (isset($_POST['create_post'])) {
 
 <div class="card">
     <div class="card-body">
-        <form action="" method="post" enctype="multipart/form-data" name="add_post" onsubmit="return validateAddPost()">
+        <form class="needs-validation" action="" method="post" enctype="multipart/form-data" name="add_post" novalidate>
 
             <div class="form-group">
                 <label for="inputAddress">Naslov</label>
                 <input name="post_title" type="text" class="form-control " id="post_title" required oninvalid="this.setCustomValidity('Unesite naslov!')" oninput="this.setCustomValidity('')">
+                <div class="valid-feedback">
+                    Super!
+                </div>
+                <div class="invalid-feedback">
+                    Molimo unesite naslov.
+                </div>
             </div>
             <div class=" form-group">
                 <label for="exampleFormControlTextarea1">Sadržaj</label>
                 <textarea name="post_content" class="form-control" id="post_content" rows="7" required oninvalid="this.setCustomValidity('Unesite sadržaj objave!')" oninput="this.setCustomValidity('')"></textarea>
+                <div class="valid-feedback">
+                    Super!
+                </div>
+                <div class="invalid-feedback">
+                    Molimo unesite sadržaj.
+                </div>
             </div>
 
             <div class=" form-row">
@@ -83,8 +95,14 @@ if (isset($_POST['create_post'])) {
             </div>
             <div class=" form-row">
                 <label for="uploadImageFile"> &nbsp; Slike: &nbsp; </label>
-                <input class="form-control" type="file" id="uploadImageFile" name="uploadImageFile[]" onchange="showImageHereFunc();" multiple />
+                <input class="form-control" type="file" id="uploadImageFile" name="uploadImageFile[]" onchange="showImageHereFunc();" multiple required />
                 <label for="showImageHere">Preview slika</label>
+                <div class="valid-feedback">
+                    Super!
+                </div>
+                <div class="invalid-feedback">
+                    Slike su obavezne.
+                </div>
                 <div id="showImageHere"></div>
             </div>
 
