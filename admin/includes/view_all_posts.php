@@ -1,3 +1,17 @@
+<?php
+if (isset($_GET['delete'])) {
+    $post_id = $_GET['delete'];
+    $sql = "DELETE FROM posts WHERE post_id = $post_id "; // SQL with parameters
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+}
+
+
+?>
+
+
+
+
 <table class="table">
     <thead>
 
@@ -72,15 +86,20 @@
                     <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon">
                         <i class="tim-icons icon-single-02"></i>
                     </button>
-                    <button type="button" rel="tooltip" class="btn btn-success btn-sm btn-icon">
+
+                    <button type="button" rel="tooltip" class="btn btn-success btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal1<?php echo $post_id ?>">
                         <i class="tim-icons icon-settings"></i>
                     </button>
-                    <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon">
+
+
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal<?php echo $post_id ?>">
                         <i class="tim-icons icon-simple-remove"></i>
                     </button>
+
                 </td>
             </tr>
 
+            <?php include("modals-posts.php") ?>
 
         <?php
         }

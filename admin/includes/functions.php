@@ -63,11 +63,11 @@ function createPost()
 
 
         // Check if file already exists
-        if (file_exists($target_file)) {
+        /*if (file_exists($target_file)) {
             echo "Sorry, file already exists.";
             $uploadOk = 0;
         }
-
+        */
         // Check file size
         if ($_FILES["uploadImageFile"]["size"][$i] > 3333310000000) {
             echo "Sorry, your file is too large.";

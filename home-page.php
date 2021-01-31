@@ -7,7 +7,7 @@ include_once("includes/header.php");
 
 <!-- Navbar -->
 <?php
-include_once("includes/navbar.php");
+include("includes/navbar.php");
 
 ?>
 <!-- Navbar -->

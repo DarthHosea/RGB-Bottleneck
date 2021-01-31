@@ -1,16 +1,56 @@
 <?php
 
-
+include_once("includes/db.php");
 include_once("includes/header.php");
 ?>
 
 
 <!-- Navbar -->
 <?php
-include_once("includes/navbar.php");
+include("includes/navbar.php");
 
 ?>
 <!-- Navbar -->
+<?php
+// LOGIN USER
+if (isset($_SESSION['username'])) {
+    header('location: home-page.php');
+};
+$errors = array();
+if (isset($_POST['login'])) {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    if (empty($username)) {
+        array_push($errors, "Unesite korisničko ime");
+    }
+    if (empty($password)) {
+        array_push($errors, "Unesite lozinku");
+    }
+
+    if (count($errors) == 0) {
+        $password = md5($password);
+
+        $sql = "SELECT * FROM users WHERE username='$username' AND user_password='$password'"; // SQL with parameters
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->get_result();
+        $row = mysqli_fetch_assoc($results);
+        $user_role = $row['user_role'];
+        if (mysqli_num_rows($results) == 1) {
+            $_SESSION['username'] = $username;
+            $_SESSION['success'] = "You are now logged in";
+            if ($user_role == 'Admin') {
+                $_SESSION['role'] = 'admin';
+            }
+            header('location: home-page.php');
+        } else {
+            array_push($errors, "Pogrešno korisničko ime ili lozinka");
+        }
+    }
+}
+
+?>
 
 </header>
 <!--Main Navigation-->
@@ -34,19 +74,44 @@ include_once("includes/navbar.php");
                 <div class="card-body px-lg-20 pt-0">
 
                     <!-- Form -->
-                    <form class="text-center" style="color: #757575;" action="#!">
+                    <form class="text-center needs-validation" method="POST" style="color: #757575;" action="login.php" novalidate>
 
                         <!-- Email -->
                         <div class="md-form">
-                            <input type="email" id="materialLoginFormEmail" class="form-control">
-                            <label for="materialLoginFormEmail">E-mail</label>
+                            <input name="username" type="text" id="materialLoginFormEmail" class="form-control" required>
+                            <label for="materialLoginFormEmail">Korisničko ime</label>
+                            <div class="valid-feedback">
+                                Super!
+                            </div>
+                            <div class="invalid-feedback">
+                                Molimo unesite ime.
+                            </div>
                         </div>
 
                         <!-- Password -->
                         <div class="md-form">
-                            <input type="password" id="materialLoginFormPassword" class="form-control">
+                            <input name="password" type="password" id="materialLoginFormPassword" class="form-control" required>
                             <label for="materialLoginFormPassword">Lozinka</label>
+                            <div class="valid-feedback">
+                                Super!
+                            </div>
+                            <div class="invalid-feedback">
+                                Molimo unesite ime.
+                            </div>
                         </div>
+                        <?php
+                        if (count($errors) > 0) {
+                        ?>
+                            <div class="col align-self-center">
+                                <div class="alert alert-danger" role="alert">
+                                    <?php foreach ($errors as $error) : ?>
+                                        <p><?php echo $error ?></p>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
 
                         <div class="d-flex justify-content-around">
                             <div>
@@ -63,7 +128,7 @@ include_once("includes/navbar.php");
                         </div>
 
                         <!-- Sign in button -->
-                        <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
+                        <button name="login" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
 
                         <!-- Register -->
                         <p>Niste registrirani?

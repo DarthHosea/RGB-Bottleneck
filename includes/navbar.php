@@ -1,3 +1,7 @@
+<?PHP
+session_start();
+
+?>
 <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
 
@@ -27,9 +31,23 @@
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank">Free download</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="login.php">Prijava</a>
-                </li>
+                <?php
+                if (!isset($_SESSION['username'])) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="login.php">Prijava</a>
+                    </li>
+                <?php
+                } else {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="logout.php">Odjava</a>
+                    </li>
+                <?php
+                }
+
+                ?>
+
             </ul>
 
             <!-- Right -->
