@@ -33,7 +33,7 @@
             </a>
         </li>
         <li>
-            <a href="./notifications.html">
+            <a href="admin-users.php">
                 <i class="tim-icons icon-single-02"></i>
                 <p>Korisnici</p>
             </a>
@@ -44,12 +44,7 @@
                 <p>Komentari</p>
             </a>
         </li>
-        <li>
-            <a href="./tables.html">
-                <i class="tim-icons icon-settings"></i>
-                <p>Profil</p>
-            </a>
-        </li>
+
 
     </ul>
 </div>

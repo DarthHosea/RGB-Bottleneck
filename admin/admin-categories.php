@@ -19,6 +19,21 @@ if (isset($_POST['create_category'])) {
 ?>
 
 
+
+<?php
+if (isset($_POST['edit_category'])) {
+    $category = $_POST['category'];
+    $cat_id = $_GET['edit_cat'];
+    $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
+    $stmtImages->bind_param("si", $category, $cat_id);
+    $stmtImages->execute();
+    header("location: admin-categories.php");
+}
+
+
+?>
+
+
 <body class="">
     <div class="wrapper">
         <div class="sidebar">
@@ -44,15 +59,37 @@ if (isset($_POST['create_category'])) {
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="" method="post" enctype="multipart/form-data" name="add_category">
+
+                                <form action="" method="post" enctype="multipart/form-data" name="add_category" class="needs-validation" novalidate>
                                     <div class="form-group">
                                         <label for="category">Nova kategorija</label>
-                                        <input type="text" name="category" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ime kategorije">
-
+                                        <input type="text" name="category" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ime kategorije" required>
+                                        <div class="valid-feedback">
+                                            Super!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Molimo unesite ime kategorije.
+                                        </div>
                                     </div>
-
-
                                     <button type="submit" name="create_category" class="btn btn-primary">Dodaj</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form action="" method="post" enctype="multipart/form-data" name="add_category" class="needs-validation" novalidate>
+                                    <div class="form-group">
+                                        <label for="category">Promjena imena kategorije</label>
+                                        <input type="text" name="category" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ime kategorije" required value="<?php if (isset($_GET['cat_title'])) echo $_GET['cat_title'] ?>">
+                                        <div class="valid-feedback">
+                                            Super!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Molimo unesite ime kategorije.
+                                        </div>
+                                    </div>
+                                    <button type="submit" name="edit_category" class="btn btn-primary">Spremi</button>
                                 </form>
                             </div>
                         </div>
@@ -74,7 +111,7 @@ if (isset($_POST['create_category'])) {
                                                     Ime kategorije
                                                 </th>
                                                 <th class="text-center">Promjena</th>
-                                                <th class="text-center">Brisanje</th>
+
 
                                             </tr>
                                         </thead>
@@ -96,20 +133,17 @@ if (isset($_POST['create_category'])) {
                                                         <?php echo $row['cat_title'] ?>
                                                     </td>
                                                     <td class="td-actions text-center">
-
-                                                        <button type="button" rel="tooltip" class="btn btn-success btn-sm btn-icon">
-                                                            <i class="tim-icons icon-settings"></i>
-                                                        </button>
-
+                                                        <a href="admin-categories.php?edit_cat=<?php echo $row['cat_id'] ?>&cat_title=<?php echo $row['cat_title'] ?>"><button type="button" rel="tooltip" class="btn btn-success btn-sm btn-icon">
+                                                                <i class="tim-icons icon-settings"></i>
+                                                            </button></a>
                                                     </td>
+                                                    <!--
                                                     <td class="td-actions text-center">
-
-
                                                         <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon">
                                                             <i class="tim-icons icon-simple-remove"></i>
                                                         </button>
                                                     </td>
-
+                                                    -->
                                                 </tr>
                                             <?php
                                             }

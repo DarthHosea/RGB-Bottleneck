@@ -40,19 +40,33 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <?php
+                        $sql = "SELECT * FROM users WHERE user_id = ? LIMIT 1"; // SQL with parameters
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $_SESSION['user_id']);
+
+                        $stmt->execute();
+                        $result = $stmt->get_result(); // get the mysqli result
+                        //$user = $result->fetch_assoc(); // fetch data
+                        $row = mysqli_fetch_assoc($result);
+
+
+                        $user_image = $row["user_image"];
+
+                        ?>
                         <div class="photo">
-                            <img src="../admin/assets/img/anime3.png" alt="Profile Photo">
+                            <img src="../userImages/<?php echo $user_image ?>" alt="Profile Photo">
                         </div>
                         <b class="caret d-none d-lg-block d-xl-block"></b>
                         <p class="d-lg-none">
-                            Log out
+
                         </p>
                     </a>
                     <ul class="dropdown-menu dropdown-navbar">
-                        <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Profile</a></li>
+                        <li class="nav-link"><a href="admin-profile.php" class="nav-item dropdown-item">Profil</a></li>
                         <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Settings</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Log out</a></li>
+                        <li class="nav-link"><a href="../logout.php" class="nav-item dropdown-item">Odjava</a></li>
                     </ul>
                 </li>
                 <li class="separator d-lg-none"></li>

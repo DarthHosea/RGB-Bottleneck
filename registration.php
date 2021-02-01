@@ -76,14 +76,52 @@ if (isset($_POST['signup'])) {
         }
     }
 
+
+
+    // Image Upload
+    $target_dir = "userImages/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if image file is a actual image or fake image
+
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+
+
+    // Check file size
+    if ($_FILES["fileToUpload"]["size"] > 50000000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+    ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+
     // Finally, register user if there are no errors in the form
-    if (count($errors) == 0) {
+    if (count($errors) == 0 && $uploadOk != 0) {
         $password = md5($password_1); //encrypt the password before saving in the database
 
 
-
-        $query = $conn->prepare("INSERT INTO users (user_firstname,user_lastname,username,user_email,user_password) VALUES (?,?,?,?,?)");
-        $query->bind_param("sssss", $firstName, $lastName, $username, $email, $password);
+        $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
+        $target_file = $target_dir . $user_image;
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+        $query = $conn->prepare("INSERT INTO users (user_firstname,user_lastname,username,user_email,user_password,user_image) VALUES (?,?,?,?,?,?)");
+        $query->bind_param("ssssss", $firstName, $lastName, $username, $email, $password, $user_image);
         $query->execute();
 
         $_SESSION['username'] = $username;
@@ -135,13 +173,13 @@ if (isset($_POST['signup'])) {
                     <div class="card-body px-lg-5 pt-0">
 
                         <!-- Form -->
-                        <form class="text-center needs-validation" style="color: #757575;" method="post" action="registration.php" novalidate>
+                        <form enctype="multipart/form-data" class="text-center needs-validation" style="color: #757575;" method="post" action="registration.php" novalidate>
 
                             <div class="form-row">
                                 <div class="col">
                                     <!-- First name -->
                                     <div class="md-form">
-                                        <input name="name" type="text" id="materialRegisterFormFirstName" class="form-control" required oninvalid="this.setCustomValidity('Ime je obavezno!')" oninput="this.setCustomValidity('')" value="<?php if ($_SESSION['firstName'] !== '') {
+                                        <input name="name" type="text" id="materialRegisterFormFirstName" class="form-control" required oninvalid="this.setCustomValidity('Ime je obavezno!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['firstName'])) {
                                                                                                                                                                                                                                                 echo $_SESSION['firstName'];
                                                                                                                                                                                                                                             } ?>">
                                         <label for=" materialRegisterFormFirstName">Ime</label>
@@ -156,7 +194,7 @@ if (isset($_POST['signup'])) {
                                 <div class="col">
                                     <!-- Last name -->
                                     <div class="md-form">
-                                        <input name="surname" type="text" id="materialRegisterFormLastName" class="form-control" required oninvalid="this.setCustomValidity('Prezime je obavezno!')" oninput="this.setCustomValidity('')" value="<?php if ($_SESSION['lastName'] !== '') {
+                                        <input name="surname" type="text" id="materialRegisterFormLastName" class="form-control" required oninvalid="this.setCustomValidity('Prezime je obavezno!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['lastName'])) {
                                                                                                                                                                                                                                                         echo $_SESSION['lastName'];
                                                                                                                                                                                                                                                     } ?>">
                                         <label for=" materialRegisterFormLastName">Prezime</label>
@@ -172,7 +210,7 @@ if (isset($_POST['signup'])) {
 
                             <!-- E-mail -->
                             <div class="md-form mt-0">
-                                <input name="email" type="email" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if ($_SESSION['email'] !== '') {
+                                <input name="email" type="email" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['email'])) {
                                                                                                                                                                                                                                         echo $_SESSION['email'];
                                                                                                                                                                                                                                     } ?>">
                                 <label for="materialRegisterFormEmail">E-mail</label>
@@ -186,7 +224,7 @@ if (isset($_POST['signup'])) {
 
                             <!-- Username -->
                             <div class="md-form mt-0">
-                                <input name="username" type="text" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if ($_SESSION['username'] !== '') {
+                                <input name="username" type="text" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['username'])) {
                                                                                                                                                                                                                                             echo $_SESSION['username'];
                                                                                                                                                                                                                                         } ?>">
                                 <label for="materialRegisterFormEmail">Korisničko ime</label>
@@ -227,6 +265,10 @@ if (isset($_POST['signup'])) {
                                 <div class="invalid-feedback">
                                     Ponovite lozinku.
                                 </div>
+                            </div>
+
+                            <div class="md-form">
+                                <input type="file" name="fileToUpload" id="fileToUpload" required>
                             </div>
                             <!-- Newsletter -->
                             <!--

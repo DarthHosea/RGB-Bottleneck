@@ -1,6 +1,7 @@
 <?php
 
 include_once("includes/admin-header.php");
+include_once("includes/db.php");
 
 ?>
 
