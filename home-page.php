@@ -22,7 +22,7 @@ include("includes/navbar.php");
 
 
 
-        <hr class="my-5">
+
 
         <!--Section: Cards-->
 
@@ -33,6 +33,7 @@ include("includes/navbar.php");
                 <!-- AMD
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
+                    <h2 class="text-danger fw-bold">AMD</h2>
                     <?php
                     $manu = 'AMD';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -42,7 +43,7 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card">
+                        <div class="card text-white bg-danger">
                             <?php
                             $postIdd = $row['post_id'];
                             $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
@@ -53,24 +54,25 @@ include("includes/navbar.php");
 
                             ?>
                             <!--Card image-->
-
-                            <div class="view overlay">
-                                <img src="admin/images/010220210759002018_hyundai_i30_n_option_2_1920x1080.jpg" class="card-img-top" alt="">
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-
+                            <span class="border border-danger">
+                                <div class="view overlay">
+                                    <span class="badge bg-danger float-right">GPU</span>
+                                    <span class="badge bg-danger float-left">GPU</span>
+                                    <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
+                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                            </span>
                             <!--Card content-->
                             <div class="card-body">
                                 <!--Title-->
                                 <h4 class="card-title"><?php echo $row['post_title'] ?></h4>
                                 <!--Text-->
-                                <p class="card-text"><?php echo $row['post_content'] ?></p>
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank" class="btn btn-primary btn-md">Start
-                                    tutorial
-                                    <i class="fas fa-play ml-2"></i>
-                                </a>
+
+                                <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
+                                <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
+
                             </div>
 
                         </div>
@@ -90,6 +92,7 @@ include("includes/navbar.php");
                 <!-- Nvidia
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
+                    <h2 class="text-success fw-bold">Nvidia</h2>
                     <?php
                     $manu = 'Nvidia';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -99,7 +102,7 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card">
+                        <div class="card text-white bg-success">
                             <?php
                             $postIdd = $row['post_id'];
                             $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
@@ -110,24 +113,22 @@ include("includes/navbar.php");
 
                             ?>
                             <!--Card image-->
-
-                            <div class="view overlay">
-                                <img src="admin/images/010220210759002018_hyundai_i30_n_option_2_1920x1080.jpg" class="card-img-top" alt="">
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-
+                            <span class="border border-success">
+                                <div class="view overlay">
+                                    <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
+                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                            </span>
                             <!--Card content-->
                             <div class="card-body">
                                 <!--Title-->
                                 <h4 class="card-title"><?php echo $row['post_title'] ?></h4>
                                 <!--Text-->
-                                <p class="card-text"><?php echo $row['post_content'] ?></p>
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank" class="btn btn-primary btn-md">Start
-                                    tutorial
-                                    <i class="fas fa-play ml-2"></i>
-                                </a>
+                                <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
+                                <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
+
                             </div>
 
                         </div>
@@ -147,6 +148,7 @@ include("includes/navbar.php");
                 <!-- Intel
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
+                    <h2 class="text-primary fw-bold">Intel</h2>
                     <?php
                     $manu = 'Intel';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -156,35 +158,34 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card">
+                        <div class="card text-white bg-primary">
                             <?php
                             $postIdd = $row['post_id'];
-                            $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
-                            $query->bind_param('s', $postIdd);
-                            $query->execute();
-                            $results1 = $query->get_result();
+                            $query1 = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
+                            $query1->bind_param('s', $postIdd);
+                            $query1->execute();
+                            $results1 = $query1->get_result();
                             $row1 = mysqli_fetch_assoc($results1)
 
                             ?>
                             <!--Card image-->
+                            <span class="border border-primary">
+                                <div class="view overlay">
 
-                            <div class="view overlay">
-                                <img src="admin/images/010220210759002018_hyundai_i30_n_option_2_1920x1080.jpg" class="card-img-top" alt="">
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-
+                                    <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
+                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                            </span>
                             <!--Card content-->
                             <div class="card-body">
                                 <!--Title-->
                                 <h4 class="card-title"><?php echo $row['post_title'] ?></h4>
                                 <!--Text-->
-                                <p class="card-text"><?php echo $row['post_content'] ?></p>
-                                <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank" class="btn btn-primary btn-md">Start
-                                    tutorial
-                                    <i class="fas fa-play ml-2"></i>
-                                </a>
+                                <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
+                                <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
+
                             </div>
 
                         </div>

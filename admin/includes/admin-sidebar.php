@@ -3,8 +3,8 @@
         <a href="javascript:void(0)" class="simple-text logo-mini">
             CT
         </a>
-        <a href="javascript:void(0)" class="simple-text logo-normal">
-            Creative Tim
+        <a href="../home-page.php" class="simple-text logo-normal">
+            HOME
         </a>
     </div>
     <ul class="nav">
