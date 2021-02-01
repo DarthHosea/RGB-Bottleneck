@@ -9,10 +9,41 @@ if (isset($_GET['delete'])) {
 
 ?>
 
+<?php
+if (isset($_GET['deleteImage'])) {
+    $image_id = $_GET['deleteImage'];
+    $stmtImages = $conn->prepare("DELETE FROM images WHERE id = ? ");
+    $stmtImages->bind_param("i", $image_id);
+    $stmtImages->execute();
+}
+
+
+?>
+
+
+<?php
+if (isset($_POST['edit_post'])) {
+    //$post_id = $_GET['edit'];
+
+    $queryResult = updatePost();
+    confirmQuery($queryResult);
+}
+
+
+?>
+
+<?php
+if (isset($_POST['add_images'])) {
+    $queryResult = addImages();
+    confirmQuery($queryResult);
+}
+
+
+?>
 
 
 
-<table class="table">
+<table class="table  table-striped table-bordered table-hover">
     <thead>
 
 
@@ -59,8 +90,12 @@ if (isset($_GET['delete'])) {
             $stmt1->execute();
             $result2 = $stmt1->get_result(); // get the mysqli result
 
-
-
+            $sql2 =  "SELECT * FROM users WHERE user_id = $post_author";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->execute();
+            $result3 = $stmt2->get_result(); // get the mysqli result
+            $userAuthor = mysqli_fetch_assoc($result3);
+            $userAuthorName = $userAuthor['username'];
             //$query2 = "SELECT * FROM users WHERE user_id = $post_author";
             //$select_users_id = mysqli_query($connection, $query2);
 
@@ -78,12 +113,18 @@ if (isset($_GET['delete'])) {
                 }
                 ?>
                 <td><?php echo $manufacturer ?></td>
-                <td><?php echo $post_author ?></td>
+                <td><?php echo $userAuthorName ?></td>
                 <td><?php echo $post_date ?></td>
                 <td><?php echo $post_status ?></td>
                 <td><?php echo $post_comment_count ?></td>
                 <td class="td-actions text-center">
-                    <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon">
+
+                    <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal3<?php echo $post_id ?>">
+                        <i class="tim-icons icon-attach-87"></i>
+                    </button>
+
+
+                    <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal2<?php echo $post_id ?>">
                         <i class="tim-icons icon-single-02"></i>
                     </button>
 
@@ -97,9 +138,10 @@ if (isset($_GET['delete'])) {
                     </button>
 
                 </td>
+                <?php include("modals-posts.php") ?>
             </tr>
 
-            <?php include("modals-posts.php") ?>
+
 
         <?php
         }

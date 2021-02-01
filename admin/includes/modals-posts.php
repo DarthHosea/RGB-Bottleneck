@@ -32,14 +32,21 @@
              </div>
              <div class="modal-body">
 
+
                  <div class="card-body">
-                     <form>
 
+                     <form class="needs-validation" novalidate method="POST">
 
+                         <input type="hidden" value="<?php echo $post_id ?>" name="post_id">
                          <div class="form-group">
                              <label for="exampleInputEmail1">Naslov objave</label>
-                             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $post_title ?>">
-
+                             <input name="post_title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $post_title ?>" required oninvalid="this.setCustomValidity('Unesite naslov!')" oninput="this.setCustomValidity('')">
+                             <div class="valid-feedback">
+                                 Super!
+                             </div>
+                             <div class="invalid-feedback">
+                                 Molimo unesite naslov.
+                             </div>
                          </div>
                          <div class="form-group">
                              <label for="exampleInputPassword1">Sadržaj objave</label>
@@ -120,8 +127,8 @@
 
                                 ?>
                              <label for="inputState">Kategorija ( Trenutna kategorija: <?php echo $cat_title ?>)</label>
-                             <select id="inputState" class="form-control" name="category">
-
+                             <select class="custom-select" id="inputState" class="form-control" name="category">
+                                 <option value=<?php echo 0  ?>>...</option>
                                  <?php
                                     $sql1 = "SELECT * FROM categories"; // SQL with parameters
                                     $stmt1 = $conn->prepare($sql1);
@@ -149,19 +156,19 @@
                          </div>
                          <div class="form-group ">
                              <label for="inputState">Status</label>
-                             <select id="inputState" class="form-control" name="category">
+                             <select class="custom-select" id="inputState" class="form-control" name="status">
                                  <?php
-                                    if ($post_status == 'Forbidden') {
+                                    if ($post_status == 'Zabranjen') {
                                     ?>
-                                     <option value="Forbidden">Zabranjen</option>
-                                     <option value="Posted">Objavljen</option>
+                                     <option value="Zabranjen">Zabranjen</option>
+                                     <option value="Objavljen">Objavljen</option>
 
 
                                  <?php
                                     } else {
                                     ?>
-                                     <option value="Posted">Objavljen</option>
-                                     <option value="Forbidden">Zabranjen</option>
+                                     <option value="Objavljen">Objavljen</option>
+                                     <option value="Zabranjen">Zabranjen</option>
 
 
                                  <?php
@@ -172,16 +179,116 @@
 
                              </select>
                          </div>
+                         <div class="form-group">
+
+                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                             <button type="submit" class="btn btn-primary" name="edit_post">Spremi promjene</button>
+
+                         </div>
                      </form>
                  </div>
 
              </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-                 <a href="admin-posts.php?delete=<?php echo $post_id ?>"><button type="button" class="btn btn-primary">Spremi promjene</button></a>
 
+         </div>
+     </div>
+ </div>
+
+
+
+ <!-- Modal For Deleting Images -->
+ <div class="modal fade modal-black" id="exampleModal2<?php echo $post_id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg " role="document">
+         <div class=" modal-content">
+             <div class=" modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Slike od ove objave</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                     <i class="tim-icons icon-simple-remove"></i>
+                 </button>
+             </div>
+             <div class="modal-body">
+
+
+                 <div class="card-body">
+
+                     <form class="needs-validation" novalidate method="POST">
+
+
+                         <div class="form-group">
+                             <label for="exampleInputEmail1">Slike</label>
+                             <?php
+                                $stmt = $conn->prepare("SELECT * FROM images WHERE post_id = ?");
+                                $stmt->bind_param("i", $post_id);
+                                $stmt->execute();
+                                $result2 = $stmt->get_result(); // get the mysqli result
+
+                                while ($row = mysqli_fetch_assoc($result2)) {
+                                    $imageId = $row['id'];
+                                    $image = $row['name'];
+                                ?>
+                                 <img src="images/<?php echo $image ?>" alt="">
+                                 <a href="admin-posts.php?deleteImage=<?php echo $imageId ?>"><button type="button" class="btn btn-primary">Izbriši</button></a>
+                             <?php
+                                }
+                                ?>
+
+
+                         </div>
+
+                         <div class="form-group">
+
+                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                             <button type="submit" class="btn btn-primary" name="edit_post">Spremi promjene</button>
+
+                         </div>
+                     </form>
+                 </div>
 
              </div>
+
+         </div>
+     </div>
+ </div>
+
+
+
+
+ <!-- Modal For Adding Images -->
+ <div class="modal fade modal-black" id="exampleModal3<?php echo $post_id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg " role="document">
+         <div class=" modal-content">
+             <div class=" modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Dodavanje slika</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                     <i class="tim-icons icon-simple-remove"></i>
+                 </button>
+             </div>
+             <div class="modal-body">
+
+
+                 <div class="card-body">
+                     <form class="needs-validation" action="" method="post" enctype="multipart/form-data" name="add_images" novalidate>
+                         <div class="form-row">
+                             <input type="hidden" value="<?php echo $post_id ?>" name="post_id">
+                             <label for="uploadImageFile"> &nbsp; Slike: &nbsp; </label>
+                             <input class="form-control" type="file" id="uploadImageFile" name="uploadImageFile[]" onchange="showImageHereFunc();" multiple required />
+                             <label for="showImageHere">Preview slika</label>
+                             <div class="valid-feedback">
+                                 Super!
+                             </div>
+                             <div class="invalid-feedback">
+                                 Slike su obavezne.
+                             </div>
+                             <div class="col-md-10 mx-auto mt-3">
+                                 <div id="showImageHere"></div>
+                             </div>
+                         </div>
+                         <button type="submit" class="btn btn-primary" name="add_images" value="Add Post">Kreiraj</button>
+                     </form>
+                 </div>
+
+             </div>
+
          </div>
      </div>
  </div>

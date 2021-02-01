@@ -271,6 +271,11 @@ button:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 
+.select-purple {
+  color: black;
+  background-color: blueviolet;
+}
+
 input,
 button,
 select,
@@ -4458,8 +4463,8 @@ input[type="button"].btn-block {
 }
 
 .custom-select:focus::-ms-value {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: transparent;
+  color: black;
+  background-color: white;
 }
 
 .custom-select[multiple],

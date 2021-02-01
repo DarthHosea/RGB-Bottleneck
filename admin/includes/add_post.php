@@ -64,7 +64,7 @@ if (isset($_POST['create_post'])) {
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState">Kategorija</label>
-                    <select id="inputState" class="form-control" name="category">
+                    <select id="inputState" class=" form-control select-purple" name="category">
 
                         <?php
                         $sql = "SELECT * FROM categories"; // SQL with parameters

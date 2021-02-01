@@ -140,6 +140,9 @@
             application: "black-dashboard-free"
         });
 </script>
+<script>
+    // $('.modal-content').css('margin-top', '-' + (Math.floor((window.innerHeight - $('.modal-content')[0].innerHeight) / 4) + 'px'));
+</script>
 </body>
 
 </html>

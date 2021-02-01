@@ -39,3 +39,9 @@
     </script>
 
 </head>
+
+<?php
+
+session_start();
+
+?>

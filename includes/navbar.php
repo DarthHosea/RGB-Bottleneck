@@ -47,6 +47,14 @@ session_start();
                 }
 
                 ?>
+                <?php
+                if (isset($_SESSION['role'])) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="admin/home-admin.php">Admin Panel</a>
+                    </li>
+                <?php
+                } ?>
 
             </ul>
 

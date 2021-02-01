@@ -6,14 +6,14 @@ function createPost()
     global $conn;
     $post_title = htmlentities($_POST['post_title']);
     $post_content = htmlentities($_POST['post_content']);
-    $post_date = date('d-m-y');
-    $post_author = 1;
+    $post_date = date('Y-m-d H:i:s');
+    $post_author = $_SESSION['user_id'];
     $post_category_id = htmlentities($_POST['category']);
     $post_manufacturer = htmlentities($_POST['manufacturer']);
     if (isset(($_POST['allow']))) {
-        $post_status = 'Approved';
+        $post_status = 'Objavljen';
     } else {
-        $post_status = 'Forbidden';
+        $post_status = 'Zabranjen';
     }
 
 
@@ -133,7 +133,116 @@ function createPost()
     }
 }
 
+function updatePost()
+{
 
+    global $conn;
+    $id = htmlentities($_POST['post_id']);
+    $post_title = htmlentities($_POST['post_title']);
+    $post_content = htmlentities($_POST['post_content']);
+    $post_category_id = htmlentities($_POST['category']);
+
+    $post_manufacturer = htmlentities($_POST['manufacturer']);
+    $post_status = htmlentities($_POST['status']);
+
+    if ($post_category_id != 0) {
+        $stmt = $conn->prepare("UPDATE posts SET post_category_id = ?,post_title= ?,post_content=?,post_status=?,manufacturer=? WHERE post_id = ?");
+        $stmt->bind_param("issssi", $post_category_id, $post_title, $post_content, $post_status, $post_manufacturer, $id);
+        $stmt->execute();
+        return true;
+    } else {
+        $stmt = $conn->prepare("UPDATE posts SET post_title= ?,post_content=?,post_status=?,manufacturer=? WHERE post_id = ?");
+        $stmt->bind_param("ssssi",  $post_title, $post_content, $post_status, $post_manufacturer, $id);
+        $stmt->execute();
+        return true;
+    }
+}
+
+
+function addImages()
+{
+
+    global $conn;
+    $post_id = htmlentities($_POST['post_id']);
+    $checker = 0;
+    $target_dir = "./images/";
+    for ($i = 0; $i < count($_FILES["uploadImageFile"]["name"]); $i++) {
+        $uploadfile = $_FILES["uploadImageFile"]["tmp_name"][$i];
+        $fileName = $_FILES["uploadImageFile"]["name"][$i];
+        $target_file = $target_dir . $fileName;
+        $uploadOk = 1;
+
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+
+        // Check if image file is a actual image or fake image
+
+        $check = getimagesize($uploadfile);
+        if ($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["uploadImageFile"]["size"][$i] > 3333310000000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow certain file formats
+        if (
+            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+
+            $uploadOk = 0;
+        }
+
+
+        if ($uploadOk === 1) {
+            $checker++;
+        }
+
+        /*
+        move_uploaded_file($uploadfile, "$target_dir" . $fileName);
+        $stmtImages = $conn->prepare("INSERT INTO images (name) VALUES (?)");
+        $stmtImages->bind_param("s", $fileName);
+        $stmtImages->execute();
+        */
+    }
+
+    // IMAGE UPLOAD
+    if ($checker === count($_FILES["uploadImageFile"]["name"])) {
+
+        $target_dir = "./images/";
+        for ($i = 0; $i < count($_FILES["uploadImageFile"]["name"]); $i++) {
+
+            $uploadfile = $_FILES["uploadImageFile"]["tmp_name"][$i];
+            $fileName = $_FILES["uploadImageFile"]["name"][$i];
+            $target_file = $target_dir . $uploadfile;
+            $newfilename = date('dmYHis') . str_replace(" ", "", basename($_FILES["uploadImageFile"]["name"][$i]));
+
+
+
+            if (move_uploaded_file($uploadfile, "$target_dir" . $newfilename)) {
+
+                $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
+                $stmtImages->bind_param("si", $newfilename, $post_id);
+                $stmtImages->execute();
+                echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+        return true;
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
 
 
 
