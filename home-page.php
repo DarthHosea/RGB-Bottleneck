@@ -50,16 +50,27 @@ include("includes/navbar.php");
                             $query->bind_param('s', $postIdd);
                             $query->execute();
                             $results1 = $query->get_result();
-                            $row1 = mysqli_fetch_assoc($results1)
+                            $row1 = mysqli_fetch_assoc($results1);
+
+
+                            $cat_name = $row['post_category_id'];
+
+                            $query = $conn->prepare('SELECT * FROM categories WHERE cat_id = ? LIMIT 1');
+                            $query->bind_param('i', $cat_name);
+                            $query->execute();
+                            $results1 = $query->get_result();
+                            $row2 = mysqli_fetch_assoc($results1)
+
+
 
                             ?>
                             <!--Card image-->
                             <span class="border border-danger">
                                 <div class="view overlay">
-                                    <span class="badge bg-danger float-right">GPU</span>
-                                    <span class="badge bg-danger float-left">GPU</span>
+                                    <span class="badge bg-danger float-right"><?php echo $row2['cat_title']  ?></span>
+                                    <span class="badge bg-danger float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
-                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                    <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
                                         <div class="mask rgba-white-slight"></div>
                                     </a>
                                 </div>
@@ -67,11 +78,15 @@ include("includes/navbar.php");
                             <!--Card content-->
                             <div class="card-body">
                                 <!--Title-->
-                                <h4 class="card-title"><?php echo $row['post_title'] ?></h4>
+                                <div class="row" style="margin-left: 10px;">
+                                    <h4 class="card-title float-left"><?php echo $row['post_title'] ?></h4>
+                                </div>
+
                                 <!--Text-->
 
                                 <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                                 <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
+                                <span class="badge rounded-pill bg-danger float-right"><?php echo $row['post_date']  ?></span>
 
                             </div>
 
@@ -109,14 +124,26 @@ include("includes/navbar.php");
                             $query->bind_param('s', $postIdd);
                             $query->execute();
                             $results1 = $query->get_result();
-                            $row1 = mysqli_fetch_assoc($results1)
+                            $row1 = mysqli_fetch_assoc($results1);
+
+
+                            $cat_name = $row['post_category_id'];
+
+                            $query = $conn->prepare('SELECT * FROM categories WHERE cat_id = ? LIMIT 1');
+                            $query->bind_param('i', $cat_name);
+                            $query->execute();
+                            $results1 = $query->get_result();
+                            $row2 = mysqli_fetch_assoc($results1);
+
 
                             ?>
                             <!--Card image-->
                             <span class="border border-success">
                                 <div class="view overlay">
+                                    <span class="badge bg-success float-right"><?php echo $row2['cat_title']  ?></span>
+                                    <span class="badge bg-success float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
-                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                    <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
                                         <div class="mask rgba-white-slight"></div>
                                     </a>
                                 </div>
@@ -128,6 +155,7 @@ include("includes/navbar.php");
                                 <!--Text-->
                                 <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                                 <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
+                                <span class="badge rounded-pill bg-success float-right"><?php echo $row['post_date']  ?></span>
 
                             </div>
 
@@ -161,19 +189,29 @@ include("includes/navbar.php");
                         <div class="card text-white bg-primary">
                             <?php
                             $postIdd = $row['post_id'];
-                            $query1 = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
-                            $query1->bind_param('s', $postIdd);
-                            $query1->execute();
-                            $results1 = $query1->get_result();
-                            $row1 = mysqli_fetch_assoc($results1)
+                            $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
+                            $query->bind_param('s', $postIdd);
+                            $query->execute();
+                            $results1 = $query->get_result();
+                            $row1 = mysqli_fetch_assoc($results1);
+
+
+                            $cat_name = $row['post_category_id'];
+
+                            $query = $conn->prepare('SELECT * FROM categories WHERE cat_id = ? LIMIT 1');
+                            $query->bind_param('i', $cat_name);
+                            $query->execute();
+                            $results1 = $query->get_result();
+                            $row2 = mysqli_fetch_assoc($results1);
 
                             ?>
                             <!--Card image-->
                             <span class="border border-primary">
                                 <div class="view overlay">
-
+                                    <span class="badge bg-primary float-right"><?php echo $row2['cat_title']  ?></span>
+                                    <span class="badge bg-primary float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
-                                    <a href="https://mdbootstrap.com/education/tech-marketing/web-push-introduction/" target="_blank">
+                                    <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
                                         <div class="mask rgba-white-slight"></div>
                                     </a>
                                 </div>
@@ -186,6 +224,7 @@ include("includes/navbar.php");
                                 <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                                 <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
 
+                                <span class="badge rounded-pill bg-primary fa-calendar-alt float-right "><i class="fas fa-calendar-alt mr-2"></i><?php echo $row['post_date']  ?></span>
                             </div>
 
                         </div>
@@ -208,15 +247,43 @@ include("includes/navbar.php");
 
 
 
+            <?php
 
+
+
+            $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 5;
+            $sql = $conn->prepare("SELECT * FROM posts");
+            $sql->execute();
+            $results = $sql->get_result();
+            $allRecrods = mysqli_num_rows($results);
+            // Calculate total pages
+            $totoalPages = ceil($allRecrods / $limit);
+            // Current pagination page number
+            $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+            $prev = $page - 1;
+            $next = $page + 1;
+
+            // Offset
+            $paginationStart = ($page - 1) * $limit;
+
+            // Limit query
+            $authors = $conn->query("SELECT * FROM posts LIMIT $paginationStart, $limit")->fetch_all();
+
+            ?>
             <!--Pagination-->
             <nav class="d-flex justify-content-center wow fadeIn">
                 <ul class="pagination pg-blue">
 
                     <!--Arrow left-->
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+                    <li class="page-item <?php if ($page <= 1) {
+                                                echo 'disabled';
+                                            } ?> ">
+                        <a class="page-link" href="<?php if ($page <= 1) {
+                                                        echo '#';
+                                                    } else {
+                                                        echo '?page=' . $prev;
+                                                    } ?> " aria-label="Previous">
+                            <span aria-hidden="true"> &lArr;</span>
                             <span class="sr-only">Previous</span>
                         </a>
                     </li>
@@ -226,22 +293,37 @@ include("includes/navbar.php");
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
+                    <?php
+                    for ($i = 1; $i < $totoalPages; $i++) {
+                    ?>
+                        <li class="page-item <?php if ($page == $i) {
+                                                    echo 'active';
+                                                }  ?>">
+                            <a class="page-link" href="<?php echo 'home-page.php?page=' . $i ?>"><?php echo $i ?>
+                                <?php if ($page == $i) {
+                                ?>
+                                    <span class="sr-only">(current)</span>
+                                <?php
+                                } ?>
 
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
+                    <?php
+                    }
+
+                    ?>
+
+
+                    <li class="page-item <?php if ($page >= $totoalPages) {
+                                                echo 'disabled';
+                                            } ?> ">
+                        <a class="page-link" href="<?php if ($page >= $totoalPages) {
+                                                        echo '#';
+                                                    } else {
+                                                        echo '?page=' . $next;
+                                                    } ?> " aria-label="Next">
+                            <span aria-hidden="true">&rArr;</span>
                             <span class="sr-only">Next</span>
                         </a>
                     </li>

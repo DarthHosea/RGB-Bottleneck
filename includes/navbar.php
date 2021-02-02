@@ -2,6 +2,11 @@
 session_start();
 
 ?>
+<?php
+$url = $_SERVER['REQUEST_URI'];
+//strpos($a, 'are');
+
+?>
 <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
 
@@ -20,16 +25,34 @@ session_start();
 
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link waves-effect" href="#">Home
+                <li class="nav-item <?php if (strpos($url, 'home-page')) {
+                                        echo 'active';
+                                    };
+                                    ?>">
+                    <a class="nav-link waves-effect" href="home-page.php">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About MDB</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank">Free download</a>
+                <li class="nav-item <?php if (strpos($url, 'AMD')) {
+                                        echo 'active';
+                                    };
+                                    ?>">
+                    <a class="nav-link waves-effect" href="categories.php?manufacturer=AMD">AMD</a>
+                </li>
+                <li class="nav-item <?php if (strpos($url, 'Nvidia')) {
+                                        echo 'active';
+                                    };
+                                    ?>">
+                    <a class="nav-link waves-effect" href="categories.php?manufacturer=Nvidia">Nvidia</a>
+                </li>
+                <li class="nav-item <?php if (strpos($url, 'Intel')) {
+                                        echo 'active';
+                                    };
+                                    ?>">
+                    <a class="nav-link waves-effect" href="categories.php?manufacturer=Intel">Intel</a>
                 </li>
                 <?php
                 if (!isset($_SESSION['username'])) {
