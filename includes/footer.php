@@ -70,6 +70,7 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="js/mdb.min.js"></script>
 <script type="text/javascript" src="js/javascript.js"></script>
+
 <!-- Initializations -->
 <script type="text/javascript">
     // Animations initialization
@@ -90,24 +91,28 @@
                         $('#commentForm')[0].reset();
                         //$('#commentId').val('0');
                         $('#message').html(response.message);
-                        //showComments();
+                        showComments();
                     } else if (response.error) {
                         $('#message').html(response.message);
 
                     }
                 }
             })
-        });
-    });
 
+        });
+
+
+    });
 
     function showComments() {
         $.ajax({
             url: "show_comments.php",
             method: "POST",
             success: function(response) {
-                $('#showComments').html(response);
-            }
+                $('#card-body-comments231').html(response);
+            },
+
+
         })
     }
 </script>

@@ -33,7 +33,7 @@ include("includes/navbar.php");
                 <!-- AMD
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
-                    <h2 class="text-danger fw-bold">AMD</h2>
+                    <h2 class="text-danger fw-bold shadow-lg" style="font-weight: bold;">AMD</h2>
                     <?php
                     $manu = 'AMD';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -43,7 +43,7 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card text-white bg-danger">
+                        <div class="card text-white bg-danger mb-3">
                             <?php
                             $postIdd = $row['post_id'];
                             $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
@@ -86,7 +86,7 @@ include("includes/navbar.php");
 
                                 <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                                 <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
-                                <span class="badge rounded-pill bg-danger float-right"><?php echo $row['post_date']  ?></span>
+                                <span class="badge rounded-pill bg-danger fa-calendar-alt float-right "><i class="fas fa-calendar-alt mr-2"></i><?php echo $row['post_date']  ?></span>
 
                             </div>
 
@@ -107,7 +107,7 @@ include("includes/navbar.php");
                 <!-- Nvidia
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
-                    <h2 class="text-success fw-bold">Nvidia</h2>
+                    <h2 class="text-success fw-bold shadow-lg" style="font-weight: bold;">Nvidia</h2>
                     <?php
                     $manu = 'Nvidia';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -117,7 +117,7 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card text-white bg-success">
+                        <div class="card text-white bg-success mb-3">
                             <?php
                             $postIdd = $row['post_id'];
                             $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');
@@ -155,7 +155,7 @@ include("includes/navbar.php");
                                 <!--Text-->
                                 <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                                 <p class="card-text text-white"><?php echo $contentTrimmed ?></p>
-                                <span class="badge rounded-pill bg-success float-right"><?php echo $row['post_date']  ?></span>
+                                <span class="badge rounded-pill bg-success fa-calendar-alt float-right "><i class="fas fa-calendar-alt mr-2"></i><?php echo $row['post_date']  ?></span>
 
                             </div>
 
@@ -176,7 +176,7 @@ include("includes/navbar.php");
                 <!-- Intel
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
-                    <h2 class="text-primary fw-bold">Intel</h2>
+                    <h2 class="text-primary fw-bold shadow-lg" style="font-weight: bold;">Intel</h2>
                     <?php
                     $manu = 'Intel';
                     $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
@@ -186,7 +186,7 @@ include("includes/navbar.php");
                     while ($row = mysqli_fetch_assoc($results)) {
 
                     ?>
-                        <div class="card text-white bg-primary">
+                        <div class="card text-white bg-primary mb-3">
                             <?php
                             $postIdd = $row['post_id'];
                             $query = $conn->prepare('SELECT * FROM images WHERE post_id = ? LIMIT 1');

@@ -14,9 +14,10 @@
     <link href="css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="css/style.min.css" rel="stylesheet">
+
 </head>
 
-<body>
+<body style="background-image: linear-gradient(to right,#F93154 9%, green , blue );">
 
     <!--Main Navigation-->
     <header>

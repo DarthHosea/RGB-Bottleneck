@@ -7,12 +7,12 @@ $url = $_SERVER['REQUEST_URI'];
 //strpos($a, 'are');
 
 ?>
-<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar bg-danger">
     <div class="container">
 
         <!-- Brand -->
         <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
-            <strong class="blue-text">RGB Bottleneck</strong>
+            <strong class="white-text">RGB Bottleneck</strong>
         </a>
 
         <!-- Collapse -->
@@ -33,9 +33,9 @@ $url = $_SERVER['REQUEST_URI'];
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About MDB</a>
-                </li>
+
+
+
                 <li class="nav-item <?php if (strpos($url, 'AMD')) {
                                         echo 'active';
                                     };
@@ -54,6 +54,42 @@ $url = $_SERVER['REQUEST_URI'];
                                     ?>">
                     <a class="nav-link waves-effect" href="categories.php?manufacturer=Intel">Intel</a>
                 </li>
+                <li class="nav-item dropdown <?php if (strpos($url, 'search.php')) {
+                                                    echo 'active';
+                                                };
+                                                ?>">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pretraga
+                    </a>
+                    <div style="width: 300px" class="dropdown-menu bg-danger pl-2" aria-labelledby="navbarDropdownMenuLink">
+
+                        <form class="d-flex input-group w-auto" method="post" action="search.php">
+                            <input style="top:7px" name="searchKey" type="text" class="form-control" aria-label="Search" />
+                            <button class="btn btn-md btn-danger" name="submit" type="submit" data-mdb-ripple-color="dark">
+                                Pretraga
+                            </button>
+                        </form>
+                    </div>
+
+                </li>
+
+            </ul>
+
+            <!-- Right -->
+
+            <ul class="navbar-nav nav-flex-icons">
+                <li>
+
+                </li>
+
+                <?php
+                if (isset($_SESSION['role'])) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="admin/home-admin.php">Admin Panel</a>
+                    </li>
+                <?php
+                } ?>
                 <?php
                 if (!isset($_SESSION['username'])) {
                 ?>
@@ -63,41 +99,17 @@ $url = $_SERVER['REQUEST_URI'];
                 <?php
                 } else {
                 ?>
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a class="nav-link waves-effect" href="logout.php">Odjava</a>
+                    </li>
+                    <li class="nav-item border border-danger rounded">
+                        <img src="userImages\010220210759002018_hyundai_i30_n_option_1_1920x1080.jpg" alt="" width="50" height="40" class="d-inline-block align-top rounded">
                     </li>
                 <?php
                 }
 
                 ?>
-                <?php
-                if (isset($_SESSION['role'])) {
-                ?>
-                    <li class="nav-item">
-                        <a class="nav-link waves-effect" href="admin/home-admin.php">Admin Panel</a>
-                    </li>
-                <?php
-                } ?>
 
-            </ul>
-
-            <!-- Right -->
-            <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item">
-                    <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="nav-link border border-light rounded waves-effect" target="_blank">
-                        <i class="fab fa-github mr-2"></i>MDB GitHub
-                    </a>
-                </li>
             </ul>
 
         </div>
