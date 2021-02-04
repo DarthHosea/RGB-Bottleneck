@@ -1,5 +1,9 @@
 <?php
 
+include("includes/db.php");
+
+
+
 function createPost()
 {
 
@@ -54,10 +58,12 @@ function createPost()
 
         $check = getimagesize($uploadfile);
         if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
+            //echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
+            echo '<div class="alert alert-danger" role="alert">
+        Datoteka nije slika
+      </div>';;
             $uploadOk = 0;
         }
 
@@ -70,7 +76,9 @@ function createPost()
         */
         // Check file size
         if ($_FILES["uploadImageFile"]["size"][$i] > 3333310000000) {
-            echo "Sorry, your file is too large.";
+            echo '<div class="alert alert-danger" role="alert">
+        Slika je prevelika
+      </div>';;
             $uploadOk = 0;
         }
 
@@ -79,7 +87,10 @@ function createPost()
             $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif"
         ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            echo '<div class="alert alert-danger" role="alert">
+        Samo JPG, JPEG, PNG & GIF formati su dopušteni.
+      </div>';;
+
 
             $uploadOk = 0;
         }
@@ -122,14 +133,20 @@ function createPost()
                 $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
                 $stmtImages->bind_param("si", $newfilename, $post_id);
                 $stmtImages->execute();
-                echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
+                echo '<div class="alert alert-success" role="alert">
+    Slika ' .  htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . ' je uspješno postavljena
+  </div>';
             } else {
-                echo "Sorry, there was an error uploading your file.";
+                echo '<div class="alert alert-danger" role="alert">
+        Greška sa postavljanjem slike.
+      </div>';;
             }
         }
         return true;
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        echo '<div class="alert alert-danger" role="alert">
+        Greška sa postavljanjem slike.
+      </div>';;
     }
 }
 
@@ -179,10 +196,12 @@ function addImages()
 
         $check = getimagesize($uploadfile);
         if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
+            //echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
+            echo '<div class="alert alert-danger" role="alert">
+        Datoteka nije slika
+      </div>';;
             $uploadOk = 0;
         }
 
@@ -197,7 +216,10 @@ function addImages()
             $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif"
         ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            echo '<div class="alert alert-danger" role="alert">
+        Dopušteni su samo sljedeći formati: JPG,JPEG,PNG i GIF.
+      </div>';;
+
 
             $uploadOk = 0;
         }
@@ -235,12 +257,16 @@ function addImages()
                 $stmtImages->execute();
                 echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
             } else {
-                echo "Sorry, there was an error uploading your file.";
+                echo '<div class="alert alert-danger" role="alert">
+                Greška sa postavljanjem slike.
+              </div>';;
             }
         }
         return true;
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        echo '<div class="alert alert-danger" role="alert">
+        Greška sa postavljanjem slike.
+      </div>';;
     }
 }
 
@@ -260,7 +286,13 @@ function createCategory()
 
 
 
-
+function displaySuccessMessage()
+{
+    echo
+        '<div class="alert alert-success" role="alert">
+                                                <strong> Promjene uspješno spremljene </strong>
+                                            </div>';
+}
 
 
 

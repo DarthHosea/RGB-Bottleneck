@@ -5,17 +5,6 @@ include_once("includes/admin-header.php");
 
 ?>
 
-<?php
-if (isset($_GET['delete'])) {
-    $user_id = $_GET['delete'];
-    $sql = "DELETE FROM comments WHERE comment_id = ? ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-}
-
-
-?>
 
 
 
@@ -40,6 +29,20 @@ if (isset($_GET['delete'])) {
             <!-- End Navbar -->
             <div class="content">
 
+                <?php
+                if (isset($_GET['delete'])) {
+                    $user_id = $_GET['delete'];
+                    $sql = "DELETE FROM comments WHERE comment_id = ? ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    echo '<div class="alert alert-success" role="alert">
+Komentar je uspješno obrisan.
+</div>';
+                }
+
+
+                ?>
                 <div class="row">
                     <table class="table  table-striped table-bordered table-hover">
                         <thead>

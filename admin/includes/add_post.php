@@ -8,6 +8,9 @@ if (isset($_POST['create_post'])) {
 
     $queryResult = createPost();
     confirmQuery($queryResult);
+    echo '<div class="alert alert-success" role="alert">
+    Objava je uspješno dodana
+  </div>';
 }
 
 ?>

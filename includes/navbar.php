@@ -97,9 +97,7 @@ $url = $_SERVER['REQUEST_URI'];
             <!-- Right -->
 
             <ul class="navbar-nav nav-flex-icons">
-                <li>
 
-                </li>
 
                 <?php
                 if (isset($_SESSION['role'])) {

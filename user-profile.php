@@ -320,7 +320,7 @@ if (!isset($_SESSION['user_id'])) {
                                 </div>
 
                                 <div class=" form-row">
-                                    <div class="col-lg-10 col-md-12 ml-2 mt-2">
+                                    <div class="col-lg-10 col-md-12 ml-5 mt-2">
                                         <button type="submit" class="btn btn-danger" name="profile_edit" value="Add Post">Spremi promjene</button>
                                     </div>
                                 </div>

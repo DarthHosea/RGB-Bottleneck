@@ -5,33 +5,7 @@ include_once("includes/admin-header.php");
 
 ?>
 
-<?php
 
-if (isset($_POST['create_category'])) {
-
-
-    $queryResult = createCategory();
-    confirmQuery($queryResult);
-}
-
-
-
-?>
-
-
-
-<?php
-if (isset($_POST['edit_category'])) {
-    $category = $_POST['category'];
-    $cat_id = $_GET['edit_cat'];
-    $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
-    $stmtImages->bind_param("si", $category, $cat_id);
-    $stmtImages->execute();
-    header("location: admin-categories.php");
-}
-
-
-?>
 
 
 <body class="">
@@ -47,14 +21,42 @@ if (isset($_POST['edit_category'])) {
             ?>
         </div>
         <div class="main-panel">
+
             <!-- Navbar -->
             <?php
             include_once("includes/admin-navbar.php");
 
+
             ?>
             <!-- End Navbar -->
-            <div class="content">
 
+            <div class="content">
+                <?php
+
+                if (isset($_POST['create_category'])) {
+
+
+                    $queryResult = createCategory();
+                    confirmQuery($queryResult);
+                    echo '<div class="alert alert-success" role="alert">
+Kategorija je uspješno dodana.
+</div>';
+                }
+
+                ?>
+                <?php
+                if (isset($_POST['edit_category'])) {
+                    $category = $_POST['category'];
+                    $cat_id = $_GET['edit_cat'];
+                    $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
+                    $stmtImages->bind_param("si", $category, $cat_id);
+                    $stmtImages->execute();
+
+                    header("location: admin-categories.php");
+                }
+
+
+                ?>
                 <div class="row">
                     <div class="col-lg-4 col-md-12">
                         <div class="card">

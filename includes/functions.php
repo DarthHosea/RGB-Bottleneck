@@ -27,10 +27,10 @@ function displayErrorMessage($result)
 </div>';
 }
 
-function displaySuccessMessage()
+function displaySuccessMessage($message)
 {
     echo
         '<div class="alert alert-success" role="alert">
-                                                <strong>Podaci su uspješno ažurirani</strong>
+                                                <strong>' . $message . '</strong>
                                             </div>';
 }

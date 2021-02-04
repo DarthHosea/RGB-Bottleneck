@@ -5,17 +5,7 @@ include_once("includes/admin-header.php");
 
 ?>
 
-<?php
-if (isset($_GET['delete'])) {
-    $user_id = $_GET['delete'];
-    $sql = "DELETE FROM users WHERE user_id = ? ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-}
 
-
-?>
 
 
 
@@ -58,7 +48,20 @@ if (isset($_GET['edit'])) {
             ?>
             <!-- End Navbar -->
             <div class="content">
+                <?php
+                if (isset($_GET['delete'])) {
+                    $user_id = $_GET['delete'];
+                    $sql = "DELETE FROM users WHERE user_id = ? ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    echo '<div class="alert alert-success" role="alert">
+Korisnik uspješno obrisan.
+</div>';
+                }
 
+
+                ?>
                 <div class="row">
                     <table class="table  table-striped table-bordered table-hover">
                         <thead>

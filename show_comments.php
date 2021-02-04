@@ -45,7 +45,7 @@ while ($comment = mysqli_fetch_assoc($commentsResult)) {
     $timeAgo = time_elapsed_string($comment['comment_date']);
 
 
-    $commentHTML .= '<div class="media d-block d-md-flex mt-3">
+    $commentHTML .= '<div class="media d-block d-md-flex mt-3 border border-danger rounded p-3">
     <img class="d-flex mb-3 mx-auto " src="userImages/' . $userImage . '" alt="Generic placeholder image">
     <div class="media-body text-center text-md-left ml-md-3 ml-0">
         <h5 class="mt-0 font-weight-bold">' . $comment['comment_author'] . '

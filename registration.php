@@ -2,6 +2,7 @@
 
 include_once("includes/db.php");
 include_once("includes/header.php");
+include("includes/functions.php");
 ?>
 
 
@@ -13,7 +14,7 @@ include("includes/navbar.php");
 <!-- Navbar -->
 
 <?php
-session_start();
+
 
 // initializing variables
 $username = "";
@@ -124,15 +125,19 @@ if (isset($_POST['signup'])) {
         $query->bind_param("ssssss", $firstName, $lastName, $username, $email, $password, $user_image);
         $query->execute();
 
+        /*
         $_SESSION['username'] = $username;
         $_SESSION['success'] = "Uspješna registracija i prijava";
         $_SESSION['email'] = '';
         $_SESSION['firstName'] = '';
         $_SESSION['lastName'] = '';
-
-        header('location: home-page.php');
+        */
+        echo '
+        <div class="alert alert-success" role="alert" style="margin-top:50px">
+        Uspješna registracija,kliknite <a href="login.php" class="alert-link">ovdje</a> za prijavu.
+        </div>';
     } else {
-        $_SESSION['username'] = $username;
+        $_SESSION['usernameTry'] = $username;
         $_SESSION['email'] = $email;
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
@@ -152,7 +157,7 @@ if (isset($_POST['signup'])) {
                 <!-- Material form register -->
                 <div class="card">
 
-                    <h5 class="card-header info-color white-text text-center py-4">
+                    <h5 class="card-header danger-color white-text text-center py-4">
                         <strong>Registracija</strong>
                     </h5>
                     <?php
@@ -161,7 +166,7 @@ if (isset($_POST['signup'])) {
                         <div class="col align-self-center">
                             <div class="alert alert-danger" role="alert">
                                 <?php foreach ($errors as $error) : ?>
-                                    <p><?php echo $error ?></p>
+                                    <p><?php displayErrorMessage($error) ?></p>
                                 <?php endforeach ?>
                             </div>
                         </div>
@@ -224,8 +229,8 @@ if (isset($_POST['signup'])) {
 
                             <!-- Username -->
                             <div class="md-form mt-0">
-                                <input name="username" type="text" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['username'])) {
-                                                                                                                                                                                                                                            echo $_SESSION['username'];
+                                <input name="username" type="text" id="materialRegisterFormEmail" class="form-control" required oninvalid="this.setCustomValidity('E-mail je obavezan!')" oninput="this.setCustomValidity('')" value="<?php if (isset($_SESSION['usernameTry'])) {
+                                                                                                                                                                                                                                            echo $_SESSION['usernameTry'];
                                                                                                                                                                                                                                         } ?>">
                                 <label for="materialRegisterFormEmail">Korisničko ime</label>
                                 <div class="valid-feedback">
@@ -268,8 +273,16 @@ if (isset($_POST['signup'])) {
                             </div>
 
                             <div class="md-form">
-                                <input type="file" name="fileToUpload" id="fileToUpload" required>
+                                <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" oninvalid="this.setCustomValidity('Slika je obavezna!')" oninput="this.setCustomValidity('')" required />
+                                <div class="valid-feedback">
+                                    Super!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Slika je obavezna
+                                </div>
                             </div>
+
+
                             <!-- Newsletter -->
                             <!--
                             <div class="form-check">
@@ -278,12 +291,12 @@ if (isset($_POST['signup'])) {
                             </div>
                             -->
                             <!-- Sign up button -->
-                            <button name="signup" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Registracija</button>
+                            <button name="signup" class="btn btn-outline-danger btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Registracija</button>
                             <hr>
                             <!-- Terms of service -->
-                            <p>By clicking
-                                <em>Sign up</em> you agree to our
-                                <a href="" target="_blank">terms of service</a>
+                            <p>Pritiskom na
+                                <em>Registracija</em> slažete se sa
+                                <a href="" target="_blank">uvjetima i odredbama</a>
 
                         </form>
                         <!-- Form -->

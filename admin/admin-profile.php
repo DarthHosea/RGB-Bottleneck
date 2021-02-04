@@ -40,164 +40,7 @@ $user_role = $row["user_role"];
 
 
 ?>
-<?php
-$errors = array();
-if (isset($_POST['profile_edit'])) {
-    // receive all input values from the form
 
-    $firstName = mysqli_real_escape_string($conn, $_POST['name']);
-    $lastName = mysqli_real_escape_string($conn, $_POST['surname']);
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
-    $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
-    $userId = $_SESSION['user_id'];
-
-
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
-    if (empty($firstName)) {
-        array_push($errors, "Ime je obavezno");
-    }
-    if (empty($lastName)) {
-        array_push($errors, "Prezime je obavezno");
-    }
-
-
-
-    if ($password_1 != $password_2) {
-        array_push($errors, "Lozinke se ne podudaraju");
-    }
-
-    // first check the database to make sure
-    // a user does not already exist with the same username and/or email
-    $sql = "SELECT * FROM users WHERE username='$username' LIMIT 1"; // SQL with parameters
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = mysqli_fetch_assoc($result);
-
-
-    if ($username != '') {
-        if ($user) { // if user exists
-            if ($user['username'] === $username) {
-                array_push($errors, "Ovo korisničko ime već postoji");
-            }
-        }
-    }
-
-
-    // uploadOk = 2 => Update data without new image
-    // uploadOk = 1 => Update data with new image
-    // uploadOk = 0 => Error with image
-    $uploadOk = 2;
-    if (!empty($_FILES["fileToUpload"]["tmp_name"])) {
-        // Image Upload
-        $target_dir = "../userImages/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-        }
-
-
-        // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 50000000) {
-            echo "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-
-        // Allow certain file formats
-        if (
-            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif"
-        ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-    }
-
-
-
-    // Finally, register user if there are no errors in the form
-    if (count($errors) == 0 && $uploadOk == 1) {
-
-        $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
-        $target_file = $target_dir . $user_image;
-        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-        if ($password_1 != '') {
-            if ($username != '') {
-                $password = md5($password_1); //encrypt the password before saving in the database
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ?,user_image = ?");
-                $query->bind_param("sssss", $firstName, $lastName, $username, $password, $user_image);
-            } else {
-                $password = md5($password_1); //encrypt the password before saving in the database
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ?,user_image = ?");
-                $query->bind_param("sssss", $firstName, $lastName, $password, $user_image);
-            }
-        } else {
-            if ($username != '') {
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_image = ?");
-                $query->bind_param("sssss", $firstName, $lastName, $username,  $user_image);
-            } else {
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_image = ? WHERE user_id = $userId");
-                $query->bind_param("sss", $firstName, $lastName,  $user_image);
-                if ($query->execute()) {
-                    header('location: admin-posts.php');
-                } else {
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                    echo "EROOOOOOOOR";
-                }
-            }
-        }
-        header('location: admin-posts.php');
-    } elseif (count($errors) == 0 && $uploadOk == 2) {
-
-        if ($password_1 != '') {
-            if ($username != '') {
-                $password = md5($password_1); //encrypt the password before saving in the database
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ? WHERE user_id = ?");
-                $query->bind_param("sssss", $firstName, $lastName, $username,  $password, $userId);
-                $query->execute();
-            } else {
-                $password = md5($password_1); //encrypt the password before saving in the database
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ? WHERE user_id = ?");
-                $query->bind_param("ssss", $firstName, $lastName, $password, $userId);
-                $query->execute();
-            }
-        } else {
-            if ($username != '') {
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ? WHERE user_id = ?");
-                $query->bind_param("sssi", $firstName, $lastName, $username,  $userId);
-                $query->execute();
-            } else {
-                $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?  WHERE user_id = ?");
-                $query->bind_param("ssi", $firstName, $lastName,  $userId);
-                $query->execute();
-            }
-        }
-        header('location: admin-profile.php');
-    } else {
-        foreach ($errors as $result) {
-            echo $result, '<br>';
-        }
-    }
-}
-?>
 
 
 
@@ -225,6 +68,168 @@ if (isset($_POST['profile_edit'])) {
                 <div class="col-lg-10 col-md-12">
                     <div class="card w-75">
                         <div class="card-body">
+
+                            <?php
+                            $errors = array();
+                            if (isset($_POST['profile_edit'])) {
+                                // receive all input values from the form
+
+                                $firstName = mysqli_real_escape_string($conn, $_POST['name']);
+                                $lastName = mysqli_real_escape_string($conn, $_POST['surname']);
+                                $username = mysqli_real_escape_string($conn, $_POST['username']);
+                                $password_1 = mysqli_real_escape_string($conn, $_POST['password_1']);
+                                $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
+                                $userId = $_SESSION['user_id'];
+
+
+                                // form validation: ensure that the form is correctly filled ...
+                                // by adding (array_push()) corresponding error unto $errors array
+                                if (empty($firstName)) {
+                                    array_push($errors, "Ime je obavezno");
+                                }
+                                if (empty($lastName)) {
+                                    array_push($errors, "Prezime je obavezno");
+                                }
+
+
+
+                                if ($password_1 != $password_2) {
+                                    array_push($errors, "Lozinke se ne podudaraju");
+                                }
+
+                                // first check the database to make sure
+                                // a user does not already exist with the same username and/or email
+                                $sql = "SELECT * FROM users WHERE username='$username' LIMIT 1"; // SQL with parameters
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $user = mysqli_fetch_assoc($result);
+
+
+                                if ($username != '') {
+                                    if ($user) { // if user exists
+                                        if ($user['username'] === $username) {
+                                            array_push($errors, "Ovo korisničko ime već postoji");
+                                        }
+                                    }
+                                }
+
+
+                                // uploadOk = 2 => Update data without new image
+                                // uploadOk = 1 => Update data with new image
+                                // uploadOk = 0 => Error with image
+                                $uploadOk = 2;
+                                if (!empty($_FILES["fileToUpload"]["tmp_name"])) {
+                                    // Image Upload
+                                    $target_dir = "../userImages/";
+                                    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                                    $uploadOk = 1;
+                                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                                    // Check if image file is a actual image or fake image
+
+                                    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                                    if ($check !== false) {
+                                        //echo "File is an image - " . $check["mime"] . ".";
+                                        $uploadOk = 1;
+                                    } else {
+                                        echo '<div class="alert alert-danger" role="alert">
+Datoteka nije slika.
+</div>';
+                                        $uploadOk = 0;
+                                    }
+
+
+                                    // Check file size
+                                    if ($_FILES["fileToUpload"]["size"] > 50000000) {
+                                        echo '<div class="alert alert-danger" role="alert">
+Slika je prevelika.
+</div>';
+                                        $uploadOk = 0;
+                                    }
+
+                                    // Allow certain file formats
+                                    if (
+                                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                                        && $imageFileType != "gif"
+                                    ) {
+                                        echo '<div class="alert alert-danger" role="alert">
+Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
+</div>';
+
+                                        $uploadOk = 0;
+                                    }
+                                }
+
+
+
+                                // Finally, register user if there are no errors in the form
+                                if (count($errors) == 0 && $uploadOk == 1) {
+
+                                    $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
+                                    $target_file = $target_dir . $user_image;
+                                    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+                                    if ($password_1 != '') {
+                                        if ($username != '') {
+                                            $password = md5($password_1); //encrypt the password before saving in the database
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ?,user_image = ?");
+                                            $query->bind_param("sssss", $firstName, $lastName, $username, $password, $user_image);
+                                            displaySuccessMessage();
+                                        } else {
+                                            $password = md5($password_1); //encrypt the password before saving in the database
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ?,user_image = ?");
+                                            $query->bind_param("sssss", $firstName, $lastName, $password, $user_image);
+                                            displaySuccessMessage();
+                                        }
+                                    } else {
+                                        if ($username != '') {
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_image = ?");
+                                            $query->bind_param("sssss", $firstName, $lastName, $username,  $user_image);
+                                            displaySuccessMessage();
+                                        } else {
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_image = ? WHERE user_id = $userId");
+                                            $query->bind_param("sss", $firstName, $lastName,  $user_image);
+                                            displaySuccessMessage();
+                                        }
+                                    }
+                                } elseif (count($errors) == 0 && $uploadOk == 2) {
+
+                                    if ($password_1 != '') {
+                                        if ($username != '') {
+                                            $password = md5($password_1); //encrypt the password before saving in the database
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ? WHERE user_id = ?");
+                                            $query->bind_param("sssss", $firstName, $lastName, $username,  $password, $userId);
+                                            $query->execute();
+                                            displaySuccessMessage();
+                                        } else {
+                                            $password = md5($password_1); //encrypt the password before saving in the database
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ? WHERE user_id = ?");
+                                            $query->bind_param("ssss", $firstName, $lastName, $password, $userId);
+                                            $query->execute();
+                                            displaySuccessMessage();
+                                        }
+                                    } else {
+                                        if ($username != '') {
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ? WHERE user_id = ?");
+                                            $query->bind_param("sssi", $firstName, $lastName, $username,  $userId);
+                                            $query->execute();
+                                            displaySuccessMessage();
+                                        } else {
+                                            $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?  WHERE user_id = ?");
+                                            $query->bind_param("ssi", $firstName, $lastName,  $userId);
+                                            $query->execute();
+                                            displaySuccessMessage();
+                                        }
+                                    }
+                                } else {
+                                    foreach ($errors as $result) {
+                                        echo '<div class="alert alert-danger" role="alert">
+' . $result . '
+</div>';
+                                    }
+                                }
+                            }
+                            ?>
                             <form class="needs-validation" enctype="multipart/form-data" action="" method="post" name="edit_profile" novalidate>
 
                                 <div class="form-row">

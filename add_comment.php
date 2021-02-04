@@ -9,14 +9,14 @@ if (!empty($_POST["comment_author"]) && !empty($_POST["comment_content"])) {
     $stmt = $conn->prepare("INSERT INTO comments(comment_author, comment_content, comment_date,comment_post_id) VALUES (?,?,?,?)");
     $stmt->bind_param("sssi", $_POST["comment_author"], $_POST["comment_content"], $post_date, $post_id);
     if ($stmt->execute()) {
-        $message = '<label class="text-success">Comment posted Successfully.</label>';
+        $message = '<label class="text-success">Komentar postavljen.</label>';
         $status = array(
             'error'  => 0,
             'message' => $message
         );
     }
 } else {
-    $message = '<label class="text-danger">Error: Comment not posted.</label>';
+    $message = '<label class="text-danger">Greška: komentar nije postavljen.</label>';
     $status = array(
         'error'  => 1,
         'message' => $message

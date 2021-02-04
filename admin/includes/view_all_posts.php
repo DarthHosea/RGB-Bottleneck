@@ -4,6 +4,9 @@ if (isset($_GET['delete'])) {
     $sql = "DELETE FROM posts WHERE post_id = $post_id "; // SQL with parameters
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+    echo '<div class="alert alert-success" role="alert">
+    Objava je uspješno obrisana
+  </div>';
 }
 
 
@@ -15,6 +18,9 @@ if (isset($_GET['deleteImage'])) {
     $stmtImages = $conn->prepare("DELETE FROM images WHERE id = ? ");
     $stmtImages->bind_param("i", $image_id);
     $stmtImages->execute();
+    echo '<div class="alert alert-success" role="alert">
+    Slike su uspješno obrisane
+  </div>';
 }
 
 
@@ -27,6 +33,9 @@ if (isset($_POST['edit_post'])) {
 
     $queryResult = updatePost();
     confirmQuery($queryResult);
+    echo '<div class="alert alert-success" role="alert">
+    Objava je uspješno ažurirana
+  </div>';
 }
 
 
@@ -36,6 +45,9 @@ if (isset($_POST['edit_post'])) {
 if (isset($_POST['add_images'])) {
     $queryResult = addImages();
     confirmQuery($queryResult);
+    echo '<div class="alert alert-success" role="alert">
+    Slike su uspješno dodane
+  </div>';
 }
 
 

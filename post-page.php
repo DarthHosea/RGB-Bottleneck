@@ -25,6 +25,15 @@ if (isset($_GET['id'])) {
     $GetpostResults = $Getpost->get_result();
     $row = mysqli_fetch_assoc($GetpostResults);
     $post_Author = $row['post_author'];
+    $post_id = $row['post_id'];
+    $post_manuf = $row['manufacturer'];
+    if ($post_manuf == 'AMD') {
+        $color = 'danger';
+    } else if ($post_manuf == 'Nvidia') {
+        $color = 'success';
+    } else {
+        $color = 'primary';
+    }
 }
 
 
@@ -67,7 +76,9 @@ if (isset($_GET['id'])) {
                     <div class="card mb-4 wow fadeIn">
 
                         <img src="admin/images/<?php echo $row1['name'] ?>" class="img-fluid" alt="">
-
+                        <div class="border border-<?php echo $color ?> rounded" style="position: absolute;z-index:3;bottom:0;background-color:white;width:100%;height:50px">
+                            <p style="font-size: 30px;font-weigth:20" class=" text-<?php echo $color ?> mt-1 ml-2"><?php echo $row['post_title'] ?></p>
+                        </div>
                     </div>
                     <!--/.Featured Image-->
 
@@ -79,7 +90,7 @@ if (isset($_GET['id'])) {
                         <!--Card content-->
                         <div class="card-body">
 
-                            <p class="h5 my-4"><?php echo $row['post_title'] ?></p>
+
 
 
 
@@ -106,6 +117,7 @@ if (isset($_GET['id'])) {
 
                             <img src="admin/images/<?php echo $row1['name'] ?>" class="img-fluid" alt="">
 
+
                         </div>
                         <!--/.Featured Images-->
                         <!--Card-->
@@ -117,21 +129,10 @@ if (isset($_GET['id'])) {
 
                     <div class="card mb-4 wow fadeIn">
 
-                        <div class="card-header font-weight-bold">
+                        <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold">
                             <span>Autor</span>
                             <span class="pull-right">
-                                <a href="">
-                                    <i class="fab fa-facebook-f mr-2"></i>
-                                </a>
-                                <a href="">
-                                    <i class="fab fa-twitter mr-2"></i>
-                                </a>
-                                <a href="">
-                                    <i class="fab fa-instagram mr-2"></i>
-                                </a>
-                                <a href="">
-                                    <i class="fab fa-linkedin-in mr-2"></i>
-                                </a>
+
                             </span>
                         </div>
 
@@ -165,7 +166,7 @@ if (isset($_GET['id'])) {
                     <!--/.Card-->
                     <!--Reply-->
                     <div class="card mb-3 wow fadeIn">
-                        <div class="card-header font-weight-bold comment_header">Leave a reply</div>
+                        <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold comment_header">Postavite komentar</div>
                         <div class="card-body">
 
                             <!-- Default form reply -->
@@ -174,7 +175,7 @@ if (isset($_GET['id'])) {
                                 <!-- Comment -->
                                 <div class="form-group">
                                     <span id="message"></span>
-                                    <label for="replyFormComment">Your comment</label>
+                                    <label for="replyFormComment">Vaš komentar</label>
                                     <textarea name="comment_content" class="form-control" id="replyFormComment" rows="5"></textarea>
                                 </div>
                                 <input type="hidden" name="comment_author" value="<?php echo $_SESSION['username'] ?>">
@@ -183,7 +184,7 @@ if (isset($_GET['id'])) {
 
 
                                 <div class="text-center mt-4">
-                                    <button onclick="showComments()" class="btn btn-info btn-md" name="submit" id="submit" type="submit">Post</button>
+                                    <button onclick="showComments()" class="btn btn-<?php echo $color ?>  btn-md" name="submit" id="submit" type="submit">Objavi</button>
                                 </div>
                             </form>
                             <span id="comment_message"></span>
@@ -195,8 +196,8 @@ if (isset($_GET['id'])) {
                     </div>
                     <!--/.Reply-->
                     <!--Comments-->
-                    <div class="card card-comments mb-3 wow fadeIn">
-                        <div class="card-header font-weight-bold">Komentari</span></div>
+                    <div class="card card-comments  mb-3 wow fadeIn">
+                        <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold">Komentari</span></div>
                         <div class="card-body card-body-comments" id="card-body-comments231">
                             <?php
 
@@ -209,6 +210,7 @@ if (isset($_GET['id'])) {
                             while ($row = mysqli_fetch_assoc($results)) {
                                 $sql1 = 'SELECT * FROM users WHERE username = ?';
                                 $sql1 = $conn->prepare($sql1);
+                                $whatever = $row['comment_author'];
                                 $sql1->bind_param('s', $row['comment_author']);
                                 $sql1->execute();
                                 $results1 = $sql1->get_result();
@@ -217,12 +219,12 @@ if (isset($_GET['id'])) {
 
 
 
-                                <div class="media d-block d-md-flex mt-3">
+                                <div class="media d-block d-md-flex mt-3 border border-<?php echo $color ?>  rounded p-3">
                                     <img class="d-flex mb-3 mx-auto " src="userImages/<?php echo $userName['user_image'] ?>" alt="Generic placeholder image">
                                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
                                         <h5 class="mt-0 font-weight-bold"><?php echo $row['comment_author'] ?>
 
-                                            <a href="" class="pull-right" style="font-size: 15px;">
+                                            <a href="" class="pull-right text-<?php echo $color ?> " style="font-size: 15px;">
                                                 <?php echo $timeAgo = time_elapsed_string($row['comment_date']) ?>
                                             </a>
                                         </h5>
@@ -264,93 +266,61 @@ if (isset($_GET['id'])) {
                         <div class="card-body text-white text-center">
 
                             <h4 class="mb-4">
-                                <strong>Learn Bootstrap 4 with MDB</strong>
+                                <strong>RGB Bottleneck</strong>
                             </h4>
                             <p>
-                                <strong>Best & free guide of responsive web design</strong>
+                                <strong>Najnovije vijesti iz svijeta komponenti</strong>
                             </p>
                             <p class="mb-4">
-                                <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000 users. Video
-                                    and written versions available. Create your own, stunning website.</strong>
+                                <strong>Iz dana u dan trudimo se poboljšati platformu kako bi naši korisnici imali
+                                    što bolje korisničko iskustvo.
+                                </strong>
                             </p>
-                            <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn btn-outline-white btn-md">Start
-                                free tutorial
-                                <i class="fas fa-graduation-cap ml-2"></i>
-                            </a>
+
 
                         </div>
                         <!-- Content -->
                     </div>
                     <!--Card: Jumbotron-->
 
-                    <!--Card : Dynamic content wrapper-->
-                    <div class="card mb-4 text-center wow fadeIn">
 
-                        <div class="card-header">Do you want to get informed about new articles?</div>
-
-                        <!--Card content-->
-                        <div class="card-body">
-
-                            <!-- Default form login -->
-                            <form>
-
-                                <!-- Default input email -->
-                                <label for="defaultFormEmailEx" class="grey-text">Your email</label>
-                                <input type="email" id="defaultFormLoginEmailEx" class="form-control">
-
-                                <br>
-
-                                <!-- Default input password -->
-                                <label for="defaultFormNameEx" class="grey-text">Your name</label>
-                                <input type="text" id="defaultFormNameEx" class="form-control">
-
-                                <div class="text-center mt-4">
-                                    <button class="btn btn-info btn-md" type="submit">Sign up</button>
-                                </div>
-                            </form>
-                            <!-- Default form login -->
-
-                        </div>
-
-                    </div>
-                    <!--/.Card : Dynamic content wrapper-->
 
                     <!--Card-->
                     <div class="card mb-4 wow fadeIn">
 
-                        <div class="card-header">Related articles</div>
+                        <div class="card-header bg-<?php echo $color ?> text-white">Predloženo</div>
 
                         <!--Card content-->
                         <div class="card-body">
 
                             <ul class="list-unstyled">
-                                <li class="media">
-                                    <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <a href="">
-                                            <h5 class="mt-0 mb-1 font-weight-bold">List-based media object</h5>
-                                        </a>
-                                        Cras sit amet nibh libero, in gravida nulla (...)
-                                    </div>
-                                </li>
-                                <li class="media my-4">
-                                    <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/placeholder6.jpg" alt="An image">
-                                    <div class="media-body">
-                                        <a href="">
-                                            <h5 class="mt-0 mb-1 font-weight-bold">List-based media object</h5>
-                                        </a>
-                                        Cras sit amet nibh libero, in gravida nulla (...)
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/placeholder5.jpg" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <a href="">
-                                            <h5 class="mt-0 mb-1 font-weight-bold">List-based media object</h5>
-                                        </a>
-                                        Cras sit amet nibh libero, in gravida nulla (...)
-                                    </div>
-                                </li>
+                                <?php
+                                $query = "SELECT * FROM posts WHERE post_id NOT IN(SELECT post_id FROM posts WHERE post_id = ? ) AND post_id IN(SELECT post_id FROM posts WHERE manufacturer = ?) LIMIT 5";
+                                $relatedPosts = $conn->prepare($query);
+                                $relatedPosts->bind_param("is", $post_id, $post_manuf);
+                                $relatedPosts->execute();
+                                $resultsOfRelated = $relatedPosts->get_result();
+
+                                while ($relatePost = mysqli_fetch_assoc($resultsOfRelated)) {
+                                ?>
+                                    <?php $titleTrimmed =  mb_strimwidth($relatePost['post_content'], 0, 20, "..."); ?>
+                                    <li class="media my-4 shadow-2-strong">
+                                        <img class="d-flex mr-3" src="https://mdbootstrap.com/img/Photos/Others/placeholder6.jpg" alt="An image">
+                                        <div class="media-body">
+                                            <a class="text-<?php echo $color ?>" href="post-page.php?id=<?php echo $relatePost['post_id'] ?>">
+                                                <h5 class="mt-0 mb-1 font-weight-bold"><?php echo $titleTrimmed ?></h5>
+                                            </a>
+                                            <?php $contentTrimmed =  mb_strimwidth($relatePost['post_content'], 0, 100, "..."); ?>
+                                            <?php echo $contentTrimmed ?>
+                                        </div>
+                                    </li>
+
+                                <?php
+                                }
+                                ?>
+
+
+
                             </ul>
 
                         </div>
