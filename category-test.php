@@ -102,9 +102,7 @@ if ($manufacturer == 'AMD') {
                         </h3>
                         <?php $contentTrimmed =  mb_strimwidth($row['post_content'], 0, 200, "..."); ?>
                         <p class="grey-text"><?php echo $contentTrimmed ?></p>
-                        <a href="https://mdbootstrap.com/education/tech-marketing/automated-app-introduction/" target="_blank" class="btn btn-<?php echo $color ?> btn-md">Detaljnije
-                            <i class="fas fa-play ml-2"></i>
-                        </a>
+
                     </div>
                     <!--Grid column-->
 

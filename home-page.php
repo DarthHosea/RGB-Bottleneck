@@ -36,7 +36,7 @@ include("includes/navbar.php");
                     <h2 class="text-danger fw-bold shadow-lg" style="font-weight: bold;">AMD</h2>
                     <?php
                     $manu = 'AMD';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();
@@ -110,7 +110,7 @@ include("includes/navbar.php");
                     <h2 class="text-success fw-bold shadow-lg" style="font-weight: bold;">Nvidia</h2>
                     <?php
                     $manu = 'Nvidia';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();
@@ -179,7 +179,7 @@ include("includes/navbar.php");
                     <h2 class="text-primary fw-bold shadow-lg" style="font-weight: bold;">Intel</h2>
                     <?php
                     $manu = 'Intel';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ?');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();
@@ -270,66 +270,7 @@ include("includes/navbar.php");
             $authors = $conn->query("SELECT * FROM posts LIMIT $paginationStart, $limit")->fetch_all();
 
             ?>
-            <!--Pagination-->
-            <nav class="d-flex justify-content-center wow fadeIn">
-                <ul class="pagination pg-blue">
 
-                    <!--Arrow left-->
-                    <li class="page-item <?php if ($page <= 1) {
-                                                echo 'disabled';
-                                            } ?> ">
-                        <a class="page-link" href="<?php if ($page <= 1) {
-                                                        echo '#';
-                                                    } else {
-                                                        echo '?page=' . $prev;
-                                                    } ?> " aria-label="Previous">
-                            <span aria-hidden="true"> &lArr;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <?php
-                    for ($i = 1; $i < $totoalPages; $i++) {
-                    ?>
-                        <li class="page-item <?php if ($page == $i) {
-                                                    echo 'active';
-                                                }  ?>">
-                            <a class="page-link" href="<?php echo 'home-page.php?page=' . $i ?>"><?php echo $i ?>
-                                <?php if ($page == $i) {
-                                ?>
-                                    <span class="sr-only">(current)</span>
-                                <?php
-                                } ?>
-
-                            </a>
-                        </li>
-
-                    <?php
-                    }
-
-                    ?>
-
-
-                    <li class="page-item <?php if ($page >= $totoalPages) {
-                                                echo 'disabled';
-                                            } ?> ">
-                        <a class="page-link" href="<?php if ($page >= $totoalPages) {
-                                                        echo '#';
-                                                    } else {
-                                                        echo '?page=' . $next;
-                                                    } ?> " aria-label="Next">
-                            <span aria-hidden="true">&rArr;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <!--Pagination-->
 
         </section>
 

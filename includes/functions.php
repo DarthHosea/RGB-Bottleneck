@@ -18,3 +18,19 @@ function time_elapsed_string($datetime, $full = false)
     if (!$full) $string = array_slice($string, 0, 1);
     return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
+
+function displayErrorMessage($result)
+{
+    echo
+        '<div class="alert alert-danger" role="alert">
+    <strong>' .  $result . '</strong>
+</div>';
+}
+
+function displaySuccessMessage()
+{
+    echo
+        '<div class="alert alert-success" role="alert">
+                                                <strong>Podaci su uspješno ažurirani</strong>
+                                            </div>';
+}

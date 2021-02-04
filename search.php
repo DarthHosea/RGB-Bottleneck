@@ -10,7 +10,11 @@ include("includes/db.php");
 <?php
 include("includes/navbar.php");
 
-
+if (isset($_POST['searchKey'])) {
+    $searchKey = $_POST['searchKey'];
+} else if (isset($_GET['key'])) {
+    $searchKey = $_GET['key'];
+}
 
 
 ?>
@@ -21,7 +25,7 @@ include("includes/navbar.php");
 
 
 <!--Main layout-->
-<main class="mt-5 pt-5">
+<main class="mt-5 ">
     <div class="container">
 
         <?php
@@ -40,16 +44,14 @@ include("includes/navbar.php");
 
         <!--Section: Cards-->
         <section class="pt-5">
-
+            <div class="container text-center mr-2  bg-danger">
+                <h2 class="text-white fw-bold shadow-lg" style="font-weight: bold;"><?php echo 'Ovo su rezultati pretrage za: ' . $searchKey  ?></h2>
+            </div>
             <!--Grid row-->
             <div class="row mt-3 wow fadeIn">
 
                 <?php
-                if (isset($_POST['searchKey'])) {
-                    $searchKey = $_POST['searchKey'];
-                } else if (isset($_GET['key'])) {
-                    $searchKey = $_GET['key'];
-                }
+
 
 
                 $newSearch =  "%" . $searchKey . "%";

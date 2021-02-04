@@ -33,6 +33,25 @@ $url = $_SERVER['REQUEST_URI'];
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
+                <?php
+
+                if (isset($_SESSION['username'])) {
+                ?>
+
+                    <li class="nav-item <?php if (strpos($url, 'user-profile')) {
+                                            echo 'active';
+                                        };
+                                        ?>">
+                        <a class="nav-link waves-effect" href="user-profile.php">Profil
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                <?php
+                }
+
+                ?>
+
 
 
 
@@ -40,19 +59,19 @@ $url = $_SERVER['REQUEST_URI'];
                                         echo 'active';
                                     };
                                     ?>">
-                    <a class="nav-link waves-effect" href="categories.php?manufacturer=AMD">AMD</a>
+                    <a class="nav-link waves-effect" href="category-page.php?manufacturer=AMD">AMD</a>
                 </li>
                 <li class="nav-item <?php if (strpos($url, 'Nvidia')) {
                                         echo 'active';
                                     };
                                     ?>">
-                    <a class="nav-link waves-effect" href="categories.php?manufacturer=Nvidia">Nvidia</a>
+                    <a class="nav-link waves-effect" href="category-page.php?manufacturer=Nvidia">Nvidia</a>
                 </li>
                 <li class="nav-item <?php if (strpos($url, 'Intel')) {
                                         echo 'active';
                                     };
                                     ?>">
-                    <a class="nav-link waves-effect" href="categories.php?manufacturer=Intel">Intel</a>
+                    <a class="nav-link waves-effect" href="category-page.php?manufacturer=Intel">Intel</a>
                 </li>
                 <li class="nav-item dropdown <?php if (strpos($url, 'search.php')) {
                                                     echo 'active';
@@ -102,8 +121,19 @@ $url = $_SERVER['REQUEST_URI'];
                     <li class="nav-item ">
                         <a class="nav-link waves-effect" href="logout.php">Odjava</a>
                     </li>
+
+                    <?php
+
+                    $sql = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+                    $sql->bind_param("i", $_SESSION['user_id']);
+                    $sql->execute();
+                    $results = $sql->get_result();
+                    $UserPhoto = mysqli_fetch_assoc($results);
+
+                    ?>
+
                     <li class="nav-item border border-danger rounded">
-                        <img src="userImages\010220210759002018_hyundai_i30_n_option_1_1920x1080.jpg" alt="" width="50" height="40" class="d-inline-block align-top rounded">
+                        <img src="userImages\<?php echo $UserPhoto['user_image'] ?>" alt="" width="50" height="40" class="d-inline-block align-top rounded border border-white">
                     </li>
                 <?php
                 }

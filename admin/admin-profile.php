@@ -318,7 +318,7 @@ if (isset($_POST['profile_edit'])) {
                                     <div class="col-lg-5 col-md-12 ml-2">
                                         <label for="uploadImageFile"> &nbsp; Slika: &nbsp; </label>
                                         <div class="md-form">
-                                            <input class="form-control" type="file" name="fileToUpload" id="uploadImageFile" onchange="showImageHereFunc();">
+                                            <input class="form-control" type="file" name="fileToUpload" id="uploadImageFile" onchange="showImageHereFunc1();">
                                         </div>
 
                                         <label for="showImageHere">Preview slike</label>
@@ -370,7 +370,19 @@ if (isset($_POST['profile_edit'])) {
             </footer>
         </div>
     </div>
+    <script>
+        function showImageHereFunc1() {
+            $("#showImageHere").empty();
+            var total_file = document.getElementById("uploadImageFile").files.length;
+            var last = total_file - 1;
 
+            $("#showImageHere").append(
+                "<img src='" +
+                URL.createObjectURL(event.target.files[last]) +
+                "' height='300px' width=' 500px' style='border-style: solid;  '>"
+            );
+        }
+    </script>
 
 
     <?php

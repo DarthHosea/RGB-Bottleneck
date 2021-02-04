@@ -19,16 +19,16 @@ $(document).ready(function () {
   });
 });
 function showImageHereFunc() {
+  $("#showImageHere").empty();
   var total_file = document.getElementById("uploadImageFile").files.length;
-  for (var i = 0; i < total_file; i++) {
-    $("#showImageHere").append(
-      "<img src='" +
-        URL.createObjectURL(event.target.files[i]) +
-        "' height='300px' width=' 500px' style='border-style: solid; border-color: #ff52ab; border-width: 2px;'>"
-    );
-  }
-}
+  var last = total_file - 1;
 
+  $("#showImageHere").append(
+    "<img src='" +
+      URL.createObjectURL(event.target.files[last]) +
+      "' height='300px' width=' 500px' style='border-style: solid;  '>"
+  );
+}
 (function () {
   "use strict";
   window.addEventListener(
