@@ -7,9 +7,9 @@ $url = $_SERVER['REQUEST_URI'];
 ?>
 
 
-<div class="sidebar-wrapper">
+<div class="sidebar-wrapper ">
     <div class="logo">
-        <a href="javascript:void(0)" class="simple-text logo-mini">
+        <a href="javascript:void(0)" class="simple-text logo-mini ">
             CT
         </a>
         <a href="../home-page.php" class="simple-text logo-normal">

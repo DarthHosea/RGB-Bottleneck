@@ -33,24 +33,7 @@ $url = $_SERVER['REQUEST_URI'];
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <?php
 
-                if (isset($_SESSION['username'])) {
-                ?>
-
-                    <li class="nav-item <?php if (strpos($url, 'user-profile')) {
-                                            echo 'active';
-                                        };
-                                        ?>">
-                        <a class="nav-link waves-effect" href="user-profile.php">Profil
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-
-                <?php
-                }
-
-                ?>
 
 
 
@@ -107,6 +90,24 @@ $url = $_SERVER['REQUEST_URI'];
                     </li>
                 <?php
                 } ?>
+                <?php
+
+                if (isset($_SESSION['username'])) {
+                ?>
+
+                    <li class="nav-item <?php if (strpos($url, 'user-profile')) {
+                                            echo 'active';
+                                        };
+                                        ?>">
+                        <a class="nav-link waves-effect" href="user-profile.php">Profil
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                <?php
+                }
+
+                ?>
                 <?php
                 if (!isset($_SESSION['username'])) {
                 ?>

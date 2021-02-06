@@ -63,13 +63,28 @@ Komentar je uspješno obrisan.
 
                             <?php
 
-                            $sql = "SELECT * FROM comments"; // SQL with parameters
-                            $stmt = $conn->prepare($sql);
 
-                            $stmt->execute();
-                            $result = $stmt->get_result(); // get the mysqli result
+                            $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
+                            $sql = $conn->prepare("SELECT * FROM comments");
+                            $sql->execute();
+                            $results = $sql->get_result();
+                            $allRecrods = mysqli_num_rows($results);
+                            // Calculate total pages
+                            $totoalPages = ceil($allRecrods / $limit);
+                            // Current pagination page number
+                            $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+                            $prev = $page - 1;
+                            $next = $page + 1;
+
+                            // Offset
+                            $paginationStart = ($page - 1) * $limit;
+
+                            // Limit query
+                            $sql = $conn->prepare("SELECT * FROM comments LIMIT $paginationStart, $limit");
+                            $sql->execute();
+                            $resultsComments = $sql->get_result();
                             //$user = $result->fetch_assoc(); // fetch data 
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while ($row = mysqli_fetch_assoc($resultsComments)) {
 
                                 $comment_id = $row['comment_id'];
                                 $comment_post_id = $row["comment_post_id"];
@@ -134,8 +149,64 @@ Komentar je uspješno obrisan.
 
                         </tbody>
                     </table>
-                </div>
+                    <!--Pagination-->
 
+                </div>
+                <nav class="d-flex justify-content-center wow fadeIn">
+                    <ul class="pagination pg-blue">
+
+                        <!--Arrow left-->
+                        <li class="page-item <?php if ($page <= 1) {
+                                                    echo 'disabled';
+                                                } ?> ">
+                            <a class="page-link" href="<?php if ($page <= 1) {
+                                                            echo '#';
+                                                        } else {
+                                                            echo '?page=' . $prev;
+                                                        } ?> " aria-label="Previous">
+                                <span aria-hidden="true"> &lArr;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+
+                        <?php
+                        for ($i = 1; $i <= $totoalPages; $i++) {
+                        ?>
+                            <li class="page-item <?php if ($page == $i) {
+                                                        echo 'active';
+                                                    }  ?>">
+                                <a class="page-link" href="<?php echo 'admin-users.php?page=' . $i ?>"><?php echo $i ?>
+                                    <?php if ($page == $i) {
+                                    ?>
+                                        <span class="sr-only">(current)</span>
+                                    <?php
+                                    } ?>
+
+                                </a>
+                            </li>
+
+                        <?php
+                        }
+
+                        ?>
+
+
+                        <li class="page-item <?php if ($page >= $totoalPages) {
+                                                    echo 'disabled';
+                                                } ?> ">
+                            <a class="page-link" href="<?php if ($page >= $totoalPages) {
+                                                            echo '#';
+                                                        } else {
+                                                            echo '?page=' . $next;
+                                                        } ?> " aria-label="Next">
+                                <span aria-hidden="true">&rArr;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--Pagination-->
 
 
             </div>

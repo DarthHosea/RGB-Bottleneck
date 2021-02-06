@@ -1,149 +1,3 @@
-<!--   Core JS Files   -->
-<script src="./assets/js/core/jquery.min.js"></script>
-<script src="./assets/js/core/popper.min.js"></script>
-<script src="./assets/js/core/bootstrap.min.js"></script>
-<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<script src="./assets/js/core/javascript.js"></script>
-<!--  Google Maps Plugin    -->
-<!-- Place this tag in your head or just before your close body tag. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!-- Chart JS -->
-<script src="./assets/js/plugins/chartjs.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="./assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="./assets/js/black-dashboard.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
-<script src="./assets/demo/demo.js"></script>
-<script>
-    $(document).ready(function() {
-        $().ready(function() {
-            $sidebar = $('.sidebar');
-            $navbar = $('.navbar');
-            $main_panel = $('.main-panel');
-
-            $full_page = $('.full-page');
-
-            $sidebar_responsive = $('body > .navbar-collapse');
-            sidebar_mini_active = true;
-            white_color = false;
-
-            window_width = $(window).width();
-
-            fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-
-
-            $('.fixed-plugin a').click(function(event) {
-                if ($(this).hasClass('switch-trigger')) {
-                    if (event.stopPropagation) {
-                        event.stopPropagation();
-                    } else if (window.event) {
-                        window.event.cancelBubble = true;
-                    }
-                }
-            });
-
-            $('.fixed-plugin .background-color span').click(function() {
-                $(this).siblings().removeClass('active');
-                $(this).addClass('active');
-
-                var new_color = $(this).data('color');
-
-                if ($sidebar.length != 0) {
-                    $sidebar.attr('data', new_color);
-                }
-
-                if ($main_panel.length != 0) {
-                    $main_panel.attr('data', new_color);
-                }
-
-                if ($full_page.length != 0) {
-                    $full_page.attr('filter-color', new_color);
-                }
-
-                if ($sidebar_responsive.length != 0) {
-                    $sidebar_responsive.attr('data', new_color);
-                }
-            });
-
-            $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function() {
-                var $btn = $(this);
-
-                if (sidebar_mini_active == true) {
-                    $('body').removeClass('sidebar-mini');
-                    sidebar_mini_active = false;
-                    blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
-                } else {
-                    $('body').addClass('sidebar-mini');
-                    sidebar_mini_active = true;
-                    blackDashboard.showSidebarMessage('Sidebar mini activated...');
-                }
-
-                // we simulate the window Resize so the charts will get updated in realtime.
-                var simulateWindowResize = setInterval(function() {
-                    window.dispatchEvent(new Event('resize'));
-                }, 180);
-
-                // we stop the simulation of Window Resize after the animations are completed
-                setTimeout(function() {
-                    clearInterval(simulateWindowResize);
-                }, 1000);
-            });
-
-            $('.switch-change-color input').on("switchChange.bootstrapSwitch", function() {
-                var $btn = $(this);
-
-                if (white_color == true) {
-
-                    $('body').addClass('change-background');
-                    setTimeout(function() {
-                        $('body').removeClass('change-background');
-                        $('body').removeClass('white-content');
-                    }, 900);
-                    white_color = false;
-                } else {
-
-                    $('body').addClass('change-background');
-                    setTimeout(function() {
-                        $('body').removeClass('change-background');
-                        $('body').addClass('white-content');
-                    }, 900);
-
-                    white_color = true;
-                }
-
-
-            });
-
-            $('.light-badge').click(function() {
-                $('body').addClass('white-content');
-            });
-
-            $('.dark-badge').click(function() {
-                $('body').removeClass('white-content');
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-    });
-</script>
-<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-<script>
-    window.TrackJS &&
-        TrackJS.install({
-            token: "ee6fab19c5a04ac1a32a645abde4613a",
-            application: "black-dashboard-free"
-        });
-</script>
-<script>
-    // $('.modal-content').css('margin-top', '-' + (Math.floor((window.innerHeight - $('.modal-content')[0].innerHeight) / 4) + 'px'));
-</script>
-
 <script>
     type = ["primary", "info", "success", "warning", "danger"];
 
@@ -504,8 +358,7 @@
                     }, ],
                 },
             };
-            // Until here
-            /*
+
             var ctx = document.getElementById("chartLinePurple").getContext("2d");
 
             var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -575,74 +428,28 @@
                 data: data,
                 options: gradientChartOptionsConfigurationWithTooltipGreen,
             });
-            */
 
-            // Prvi veliki chart
-            <?php
-            $mjeseci = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
-            $proizvodaci = array("AMD", "Nvidia", "Intel");
-            $podaciObjave = array();
-            $podaciKorisnici = array();
-            $podaciKomentari = array();
-            $podaciProizvodaci = array();
-            for ($i = 1; $i <= count($mjeseci); $i++) {
-                $sql = $conn->prepare("SELECT * FROM posts WHERE MONTH(post_date) = ? AND YEAR(post_date) = 2021");
-                $sql->bind_param("i", $i);
-                $sql->execute();
-                $postResults = $sql->get_result();
-                array_push($podaciObjave, mysqli_num_rows($postResults));
-            }
-            for ($i = 1; $i <= count($mjeseci); $i++) {
-                $sql = $conn->prepare("SELECT * FROM comments WHERE MONTH(comment_date) = ? AND YEAR(comment_date) = 2021");
-                $sql->bind_param("i", $i);
-                $sql->execute();
-                $postResults = $sql->get_result();
-                array_push($podaciKomentari, mysqli_num_rows($postResults));
-            }
-
-            for ($i = 1; $i <= count($mjeseci); $i++) {
-                $sql = $conn->prepare("SELECT * FROM users WHERE MONTH(user_date) = ? AND YEAR(user_date) = 2021");
-                $sql->bind_param("i", $i);
-                $sql->execute();
-                $postResults = $sql->get_result();
-                array_push($podaciKorisnici, mysqli_num_rows($postResults));
-            }
-
-            foreach ($proizvodaci as $proizvodac) {
-                $sql = $conn->prepare("SELECT * FROM posts WHERE manufacturer = ?");
-                $sql->bind_param("s", $proizvodac);
-                $sql->execute();
-                $postResults = $sql->get_result();
-                array_push($podaciProizvodaci, mysqli_num_rows($postResults));
-            }
-
-
-
-
-            ?>
             var chart_labels = [
-                "SIJ",
-                "VELJ",
-                "OŽU",
-                "TRA",
-                "SVI",
-                "LIP",
-                "SRP",
-                "KOL",
-                "RUJ",
-                "LIS",
-                "STU",
-                "PRO",
+                "JAN",
+                "FEB",
+                "MAR",
+                "APR",
+                "MAY",
+                "JUN",
+                "JUL",
+                "AUG",
+                "SEP",
+                "OCT",
+                "NOV",
+                "DEC",
             ];
-            var chart_data = [
-                <?php echo $podaciObjave['0'] ?>, <?php echo $podaciObjave['1'] ?>, <?php echo $podaciObjave['2'] ?>, <?php echo $podaciObjave['3'] ?>, <?php echo $podaciObjave['4'] ?>, <?php echo $podaciObjave['5'] ?>, <?php echo $podaciObjave['6'] ?>, <?php echo $podaciObjave['7'] ?>, <?php echo $podaciObjave['8'] ?>, <?php echo $podaciObjave['9'] ?>, <?php echo $podaciObjave['10'] ?>, <?php echo $podaciObjave['11'] ?>
-            ];
+            var chart_data = [200, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
 
             var ctx = document.getElementById("chartBig1").getContext("2d");
 
             var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
 
-            gradientStroke.addColorStop(1, "rgba(0, 214, 180, 0.4)");
+            gradientStroke.addColorStop(1, "rgba(72,72,176,0.1)");
             gradientStroke.addColorStop(0.4, "rgba(72,72,176,0.0)");
             gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
             var config = {
@@ -650,16 +457,16 @@
                 data: {
                     labels: chart_labels,
                     datasets: [{
-                        label: "Broj u ovom mjesecu",
+                        label: "My First dataset",
                         fill: true,
                         backgroundColor: gradientStroke,
-                        borderColor: "#00d6b4",
+                        borderColor: "#d346b1",
                         borderWidth: 2,
                         borderDash: [],
                         borderDashOffset: 0.0,
-                        pointBackgroundColor: "#00d6b4",
+                        pointBackgroundColor: "#d346b1",
                         pointBorderColor: "rgba(255,255,255,0)",
-                        pointHoverBackgroundColor: "#00d6b4",
+                        pointHoverBackgroundColor: "#d346b1",
                         pointBorderWidth: 20,
                         pointHoverRadius: 4,
                         pointHoverBorderWidth: 15,
@@ -667,7 +474,7 @@
                         data: chart_data,
                     }, ],
                 },
-                options: gradientChartOptionsConfigurationWithTooltipGreen,
+                options: gradientChartOptionsConfigurationWithTooltipPurple,
             };
             var myChartData = new Chart(ctx, config);
             $("#0").click(function() {
@@ -677,9 +484,7 @@
                 myChartData.update();
             });
             $("#1").click(function() {
-                var chart_data = [
-                    <?php echo $podaciKomentari['0'] ?>, <?php echo $podaciKomentari['1'] ?>, <?php echo $podaciKomentari['2'] ?>, <?php echo $podaciObjave['3'] ?>, <?php echo $podaciKomentari['4'] ?>, <?php echo $podaciKomentari['5'] ?>, <?php echo $podaciKomentari['6'] ?>, <?php echo $podaciKomentari['7'] ?>, <?php echo $podaciKomentari['8'] ?>, <?php echo $podaciKomentari['9'] ?>, <?php echo $podaciKomentari['10'] ?>, <?php echo $podaciKomentari['11'] ?>
-                ];
+                var chart_data = [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120];
                 var data = myChartData.config.data;
                 data.datasets[0].data = chart_data;
                 data.labels = chart_labels;
@@ -687,56 +492,13 @@
             });
 
             $("#2").click(function() {
-                var chart_data = [
-                    <?php echo $podaciKorisnici['0'] ?>, <?php echo $podaciKorisnici['1'] ?>, <?php echo $podaciKorisnici['2'] ?>, <?php echo $podaciKorisnici['3'] ?>, <?php echo $podaciKorisnici['4'] ?>, <?php echo $podaciKorisnici['5'] ?>, <?php echo $podaciKorisnici['6'] ?>, <?php echo $podaciKorisnici['7'] ?>, <?php echo $podaciKorisnici['8'] ?>, <?php echo $podaciKorisnici['9'] ?>, <?php echo $podaciKorisnici['10'] ?>, <?php echo $podaciKorisnici['11'] ?>
-                ];
+                var chart_data = [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130];
                 var data = myChartData.config.data;
                 data.datasets[0].data = chart_data;
                 data.labels = chart_labels;
                 myChartData.update();
             });
 
-            var ctx = document.getElementById("CountryChart").getContext("2d");
-
-            var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
-
-            gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-            gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-            gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-
-            var myChart = new Chart(ctx, {
-                type: "bar",
-                responsive: true,
-                legend: {
-                    display: false,
-                },
-                data: {
-                    labels: ["AMD", "Nvidia", "Intel"],
-                    datasets: [{
-                        label: "Broj objava",
-                        fill: true,
-                        backgroundColor: gradientStroke,
-                        hoverBackgroundColor: gradientStroke,
-                        borderColor: "#1f8ef1",
-                        borderWidth: 2,
-                        borderDash: [],
-                        borderDashOffset: 0.0,
-                        data: [<?php echo $podaciProizvodaci['0'] ?>, <?php echo $podaciProizvodaci['1'] ?>, <?php echo $podaciProizvodaci['2'] ?>],
-                    }, ],
-                },
-                options: gradientBarChartConfiguration,
-                scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            suggestedMin: 0, //min
-                            suggestedMax: 100 //max 
-                        }
-                    }]
-                },
-
-            });
-            /*
             var ctx = document.getElementById("CountryChart1").getContext("2d");
 
             var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -767,7 +529,6 @@
                 },
                 options: gradientBarChartConfiguration,
             });
-            */
         },
 
         initGoogleMaps: function() {
@@ -993,7 +754,3 @@
         },
     };
 </script>
-
-</body>
-
-</html>

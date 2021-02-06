@@ -67,7 +67,7 @@ if (isset($_POST['add_images'])) {
             <th>Proizvođač</th>
             <th>Autor</th>
             <th>Datum</th>
-            <th>Status</th>
+
             <th>Broj komentara</th>
             <th class="text-center">Akcije</th>
         </tr>
@@ -78,13 +78,33 @@ if (isset($_POST['add_images'])) {
 
         <?php
 
-        $sql = "SELECT * FROM posts"; // SQL with parameters
-        $stmt = $conn->prepare($sql);
 
-        $stmt->execute();
-        $result = $stmt->get_result(); // get the mysqli result
+
+
+
+        $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
+        $sql = $conn->prepare("SELECT * FROM posts");
+        $sql->execute();
+        $results = $sql->get_result();
+        $allRecrods = mysqli_num_rows($results);
+        // Calculate total pages
+        $totoalPages = ceil($allRecrods / $limit);
+        // Current pagination page number
+        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+        $prev = $page - 1;
+        $next = $page + 1;
+
+        // Offset
+        $paginationStart = ($page - 1) * $limit;
+
+        // Limit query
+        $sql = $conn->prepare("SELECT * FROM posts LIMIT $paginationStart, $limit");
+        $sql->execute();
+        $resultsCat = $sql->get_result();
+
+
         //$user = $result->fetch_assoc(); // fetch data 
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($resultsCat)) {
 
             $post_id = $row['post_id'];
             $post_title = $row["post_title"];
@@ -93,7 +113,7 @@ if (isset($_POST['add_images'])) {
             $post_date = $row["post_date"];
             $post_content = $row["post_content"];
             $post_comment_count = $row["post_comment_count"];
-            $post_status = $row["post_status"];
+
             $manufacturer = $row["manufacturer"];
 
 
@@ -127,7 +147,7 @@ if (isset($_POST['add_images'])) {
                 <td><?php echo $manufacturer ?></td>
                 <td><?php echo $userAuthorName ?></td>
                 <td><?php echo $post_date ?></td>
-                <td><?php echo $post_status ?></td>
+
                 <td><?php echo $post_comment_count ?></td>
                 <td class="td-actions text-center">
 
@@ -169,3 +189,59 @@ if (isset($_POST['add_images'])) {
 
     </tbody>
 </table>
+<!--Pagination-->
+<nav class="d-flex justify-content-center wow fadeIn">
+    <ul class="pagination pg-blue">
+
+        <!--Arrow left-->
+        <li class="page-item <?php if ($page <= 1) {
+                                    echo 'disabled';
+                                } ?> ">
+            <a class="page-link" href="<?php if ($page <= 1) {
+                                            echo '#';
+                                        } else {
+                                            echo '?page=' . $prev;
+                                        } ?> " aria-label="Previous">
+                <span aria-hidden="true"> &lArr;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+
+
+        <?php
+        for ($i = 1; $i <= $totoalPages; $i++) {
+        ?>
+            <li class="page-item <?php if ($page == $i) {
+                                        echo 'active';
+                                    }  ?>">
+                <a class="page-link" href="<?php echo 'admin-posts.php?page=' . $i ?>"><?php echo $i ?>
+                    <?php if ($page == $i) {
+                    ?>
+                        <span class="sr-only">(current)</span>
+                    <?php
+                    } ?>
+
+                </a>
+            </li>
+
+        <?php
+        }
+
+        ?>
+
+
+        <li class="page-item <?php if ($page >= $totoalPages) {
+                                    echo 'disabled';
+                                } ?> ">
+            <a class="page-link" href="<?php if ($page >= $totoalPages) {
+                                            echo '#';
+                                        } else {
+                                            echo '?page=' . $next;
+                                        } ?> " aria-label="Next">
+                <span aria-hidden="true">&rArr;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--Pagination-->

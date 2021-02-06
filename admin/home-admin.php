@@ -69,5 +69,5 @@ include_once("includes/db.php");
 
     <?php
 
-    include_once("includes/admin-fixed-plugin.php");
+
     include_once("includes/admin-footer.php");

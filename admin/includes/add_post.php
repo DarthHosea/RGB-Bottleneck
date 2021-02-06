@@ -108,7 +108,7 @@ if (isset($_POST['create_post'])) {
                 </div>
                 <div id="showImageHere"></div>
             </div>
-
+            <!--
             <div class="form-group">
                 <div class="form-check">
                     <label class="form-check-label">
@@ -120,6 +120,7 @@ if (isset($_POST['create_post'])) {
                     </label>
                 </div>
             </div>
+                    -->
             <button type="submit" class="btn btn-primary" name="create_post" value="Add Post">Kreiraj</button>
         </form>
     </div>

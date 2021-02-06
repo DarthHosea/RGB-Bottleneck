@@ -121,8 +121,9 @@ if (isset($_POST['signup'])) {
         $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
         $target_file = $target_dir . $user_image;
         move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-        $query = $conn->prepare("INSERT INTO users (user_firstname,user_lastname,username,user_email,user_password,user_image) VALUES (?,?,?,?,?,?)");
-        $query->bind_param("ssssss", $firstName, $lastName, $username, $email, $password, $user_image);
+        $user_date = date('Y-m-d H:i:s');
+        $query = $conn->prepare("INSERT INTO users (user_firstname,user_lastname,username,user_email,user_password,user_image,user_date) VALUES (?,?,?,?,?,?,?)");
+        $query->bind_param("sssssss", $firstName, $lastName, $username, $email, $password, $user_image, $user_date);
         $query->execute();
 
         /*

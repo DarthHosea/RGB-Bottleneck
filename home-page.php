@@ -72,7 +72,7 @@ include("includes/navbar.php");
                                     <span class="badge bg-danger float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
                                     <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
-                                        <div class="mask rgba-white-slight"></div>
+                                        <div class="mask rgba-red-light"></div>
                                     </a>
                                 </div>
                             </span>
@@ -145,7 +145,7 @@ include("includes/navbar.php");
                                     <span class="badge bg-success float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
                                     <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
-                                        <div class="mask rgba-white-slight"></div>
+                                        <div class="mask rgba-green-light"></div>
                                     </a>
                                 </div>
                             </span>
@@ -213,7 +213,7 @@ include("includes/navbar.php");
                                     <span class="badge bg-primary float-left"><?php echo $row2['cat_title']  ?></span>
                                     <img src="admin/images/<?php echo $row1['name'] ?>" class="card-img-top" alt="">
                                     <a href="post-page.php?id=<?php echo $postIdd ?>" target="_blank">
-                                        <div class="mask rgba-white-slight"></div>
+                                        <div class="mask rgba-blue-light"></div>
                                     </a>
                                 </div>
                             </span>

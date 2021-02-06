@@ -46,13 +46,19 @@ Kategorija je uspješno dodana.
                 ?>
                 <?php
                 if (isset($_POST['edit_category'])) {
-                    $category = $_POST['category'];
-                    $cat_id = $_GET['edit_cat'];
-                    $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
-                    $stmtImages->bind_param("si", $category, $cat_id);
-                    $stmtImages->execute();
+                    if (isset($_GET['edit_cat'])) {
+                        $category = $_POST['category'];
+                        $cat_id = $_GET['edit_cat'];
+                        $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
+                        $stmtImages->bind_param("si", $category, $cat_id);
+                        $stmtImages->execute();
 
-                    header("location: admin-categories.php");
+                        header("location: admin-categories.php");
+                    } else {
+                        echo '<div class="alert alert-danger" role="alert">
+Nije odabrana kategorija za promjenu.
+</div>';
+                    }
                 }
 
 
@@ -88,7 +94,7 @@ Kategorija je uspješno dodana.
                                             Super!
                                         </div>
                                         <div class="invalid-feedback">
-                                            Molimo unesite ime kategorije.
+                                            Molimo odaberite kategoriju.
                                         </div>
                                     </div>
                                     <button type="submit" name="edit_category" class="btn btn-primary">Spremi</button>
