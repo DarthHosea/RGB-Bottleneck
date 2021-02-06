@@ -178,7 +178,7 @@ if (isset($_GET['id'])) {
                                     <label for="replyFormComment">Vaš komentar</label>
                                     <textarea name="comment_content" class="form-control" id="replyFormComment" rows="5"></textarea>
                                 </div>
-                                <input type="hidden" name="comment_author" value="<?php echo $_SESSION['username'] ?>">
+                                <input type="hidden" name="comment_author" value="<?php echo $_SESSION['user_id'] ?>">
                                 <input type="hidden" name="post_id" value="<?php echo $_GET['id'] ?>">
 
 
@@ -201,17 +201,17 @@ if (isset($_GET['id'])) {
                         <div class="card-body card-body-comments" id="card-body-comments231">
                             <?php
 
-                            $sql = 'SELECT * FROM comments WHERE comment_post_id = ?';
+                            $sql = 'SELECT * FROM comments WHERE comment_post_id = ? ORDER BY comment_id DESC';
                             $sql = $conn->prepare($sql);
                             $sql->bind_param('i', $_GET['id']);
                             $sql->execute();
                             $results = $sql->get_result();
 
                             while ($row = mysqli_fetch_assoc($results)) {
-                                $sql1 = 'SELECT * FROM users WHERE username = ?';
+                                $sql1 = 'SELECT * FROM users WHERE user_id = ?';
                                 $sql1 = $conn->prepare($sql1);
-                                $whatever = $row['comment_author'];
-                                $sql1->bind_param('s', $row['comment_author']);
+
+                                $sql1->bind_param('i', $row['comment_author']);
                                 $sql1->execute();
                                 $results1 = $sql1->get_result();
                                 $userName = mysqli_fetch_assoc($results1);
@@ -219,13 +219,13 @@ if (isset($_GET['id'])) {
 
 
 
-                                <div class="media d-block d-md-flex mt-3 border border-<?php echo $color ?>  rounded p-3">
+                                <div class="media d-block d-md-flex mt-3 border-top border-black rounded p-3">
                                     <img class="d-flex mb-3 mx-auto " src="userImages/<?php echo $userName['user_image'] ?>" alt="Generic placeholder image">
                                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                        <h5 class="mt-0 font-weight-bold"><?php echo $row['comment_author'] ?>
+                                        <h5 class="mt-0 font-weight-bold"><?php echo $userName['username'] ?>
 
-                                            <a href="" class="pull-right text-<?php echo $color ?> " style="font-size: 15px;">
-                                                <?php echo $timeAgo = time_elapsed_string($row['comment_date']) ?>
+                                            <a href="" class="pull-right text-dark " style="font-size: 15px;">
+                                                <?php echo $timeAgo = $row['comment_date'] ?>
                                             </a>
                                         </h5>
                                         <div class="mw-80" style="width: 600px;">

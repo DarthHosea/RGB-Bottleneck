@@ -81,6 +81,7 @@
         $('#commentForm').on('submit', function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
+
             $.ajax({
                 url: "add_comment.php",
                 method: "POST",
@@ -101,20 +102,39 @@
 
         });
 
-
     });
 
     function showComments() {
+        var str = getUrlParameter('id');
         $.ajax({
             url: "show_comments.php",
             method: "POST",
+            data: {
+                'str': str
+            },
             success: function(response) {
                 $('#card-body-comments231').html(response);
             },
 
 
         })
+
     }
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
 </script>
 </body>
 

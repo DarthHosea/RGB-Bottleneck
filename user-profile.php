@@ -126,7 +126,7 @@ if (!isset($_SESSION['user_id'])) {
 
                                     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
                                     if ($check !== false) {
-                                        echo "File is an image - " . $check["mime"] . ".";
+                                        //echo "File is an image - " . $check["mime"] . ".";
                                         $uploadOk = 1;
                                     } else {
                                         echo "File is not an image.";
@@ -163,18 +163,30 @@ if (!isset($_SESSION['user_id'])) {
                                             $password = md5($password_1); //encrypt the password before saving in the database
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $username, $password, $user_image);
+                                            $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         } else {
                                             $password = md5($password_1); //encrypt the password before saving in the database
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $password, $user_image);
+                                            $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         }
                                     } else {
                                         if ($username != '') {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $username,  $user_image);
+                                            $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         } else {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_image = ? WHERE user_id = $userId");
                                             $query->bind_param("sss", $firstName, $lastName,  $user_image);
+                                            $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         }
                                     }
                                 } else if (count($errors) == 0 && $uploadOk == 2) {
@@ -185,11 +197,15 @@ if (!isset($_SESSION['user_id'])) {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ? WHERE user_id = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $username,  $password, $userId);
                                             $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         } else {
                                             $password = md5($password_1); //encrypt the password before saving in the database
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ? WHERE user_id = ?");
                                             $query->bind_param("ssss", $firstName, $lastName, $password, $userId);
                                             $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         }
                                     } else {
                                         if ($username != '') {
@@ -200,12 +216,13 @@ if (!isset($_SESSION['user_id'])) {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?  WHERE user_id = ?");
                                             $query->bind_param("ssi", $firstName, $lastName,  $userId);
                                             $query->execute();
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                             ?>
 
 
                             <?php
                                         }
-                                        displaySuccessMessage();
                                     }
                                 } else {
                                     foreach ($errors as $result) {

@@ -169,7 +169,7 @@ if (isset($_POST['searchKey'])) {
                                                         echo '#';
                                                     } else {
                                                         echo '?page=' . $prev;
-                                                    } ?> " aria-label="Previous">
+                                                    } ?> &key=<?php echo $searchKey ?>" aria-label="Previous">
                             <span aria-hidden="true"> &lArr;</span>
                             <span class="sr-only">Previous</span>
                         </a>

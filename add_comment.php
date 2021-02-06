@@ -7,9 +7,9 @@ $post_id = $_POST['post_id'];
 if (!empty($_POST["comment_author"]) && !empty($_POST["comment_content"])) {
 
     $stmt = $conn->prepare("INSERT INTO comments(comment_author, comment_content, comment_date,comment_post_id) VALUES (?,?,?,?)");
-    $stmt->bind_param("sssi", $_POST["comment_author"], $_POST["comment_content"], $post_date, $post_id);
+    $stmt->bind_param("issi", $_POST["comment_author"], $_POST["comment_content"], $post_date, $post_id);
     if ($stmt->execute()) {
-        $message = '<label class="text-success">Komentar postavljen.</label>';
+        $message = '<div class="alert alert-success" role="alert">Komentar postavljen. </div>';
         $status = array(
             'error'  => 0,
             'message' => $message
