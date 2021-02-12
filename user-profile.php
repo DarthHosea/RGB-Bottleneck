@@ -78,6 +78,24 @@ if (!isset($_SESSION['user_id'])) {
                                 $userId = $_SESSION['user_id'];
 
 
+
+
+
+
+                                if (!empty($password_1)) {
+                                    $letNumCheck = array('AbCd1zyZ9', $password_1);
+                                    foreach ($letNumCheck as $testcase) {
+                                        if (!ctype_alnum($testcase)) {
+                                            array_push($errors, "Lozinka se može sastojati samo od slova i brojki");
+                                        }
+                                    }
+
+
+                                    if (strlen($password_1) < 6) {
+                                        array_push($errors, "Lozinka se mora sastojati od bar 7 brojki i/ili slova");
+                                    }
+                                }
+
                                 // form validation: ensure that the form is correctly filled ...
                                 // by adding (array_push()) corresponding error unto $errors array
                                 if (empty($firstName)) {
@@ -129,14 +147,14 @@ if (!isset($_SESSION['user_id'])) {
                                         //echo "File is an image - " . $check["mime"] . ".";
                                         $uploadOk = 1;
                                     } else {
-                                        echo "File is not an image.";
+                                        echo "Datoteka nije slika";
                                         $uploadOk = 0;
                                     }
 
 
                                     // Check file size
                                     if ($_FILES["fileToUpload"]["size"] > 50000000) {
-                                        echo "Sorry, your file is too large.";
+                                        echo "Vaša slika je prevelika";
                                         $uploadOk = 0;
                                     }
 
@@ -145,7 +163,7 @@ if (!isset($_SESSION['user_id'])) {
                                         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                                         && $imageFileType != "gif"
                                     ) {
-                                        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                                        echo "Dozvoljeni su samo sljedeći formati slika: JPG, JPEG, PNG & GIF ";
                                         $uploadOk = 0;
                                     }
                                 }
@@ -156,6 +174,12 @@ if (!isset($_SESSION['user_id'])) {
                                 if (count($errors) == 0 && $uploadOk == 1) {
 
                                     $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
+                                    $i = 1;
+                                    while (file_exists($target_dir . $user_image)) {
+                                        $user_image = $user_image . $i;
+                                        $i++;
+                                    }
+
                                     $target_file = $target_dir . $user_image;
                                     move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
                                     if ($password_1 != '') {

@@ -7,10 +7,7 @@ if (isset($_POST['create_post'])) {
 
 
     $queryResult = createPost();
-    confirmQuery($queryResult);
-    echo '<div class="alert alert-success" role="alert">
-    Objava je uspješno dodana
-  </div>';
+    //confirmQuery($queryResult);
 }
 
 ?>
@@ -67,15 +64,15 @@ if (isset($_POST['create_post'])) {
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState">Kategorija</label>
-                    <select id="inputState" class=" form-control select-purple" name="category">
+                    <select id="inputState" class=" form-control select-purple bg-primary" name="category">
 
                         <?php
-                        $sql = "SELECT * FROM categories"; // SQL with parameters
+                        $sql = "SELECT * FROM categories "; // SQL with parameters
                         $stmt = $conn->prepare($sql);
 
                         $stmt->execute();
                         $result = $stmt->get_result(); // get the mysqli result
-                        $user = $result->fetch_assoc(); // fetch data 
+
                         while ($row = mysqli_fetch_assoc($result)) {
 
                             $cat_title = $row["cat_title"];
@@ -98,15 +95,15 @@ if (isset($_POST['create_post'])) {
             </div>
             <div class=" form-row">
                 <label for="uploadImageFile"> &nbsp; Slike: &nbsp; </label>
-                <input class="form-control" type="file" id="uploadImageFile" name="uploadImageFile[]" onchange="showImageHereFunc();" multiple required />
-                <label for="showImageHere">Preview slika</label>
+                <input class="form-control" type="file" id="uploadImageFileAddPost" name="uploadImageFile[]" onchange="showImageHereFuncAddPost();" multiple required />
+                <label for="showImageHere" class="mr-3">Preview slika -></label>
                 <div class="valid-feedback">
                     Super!
                 </div>
                 <div class="invalid-feedback">
                     Slike su obavezne.
                 </div>
-                <div id="showImageHere"></div>
+                <div id="showImageHereAddPost"></div>
             </div>
             <!--
             <div class="form-group">
@@ -121,7 +118,7 @@ if (isset($_POST['create_post'])) {
                 </div>
             </div>
                     -->
-            <button type="submit" class="btn btn-primary" name="create_post" value="Add Post">Kreiraj</button>
+            <button type="submit" class="btn btn-primary m-4" name="create_post" value="Add Post">Kreiraj</button>
         </form>
     </div>
 </div>

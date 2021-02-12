@@ -55,18 +55,13 @@ function showImageHereFunc() {
   );
 })();
 
-/*
-
-
-
-
-
 // Show image preview
 
-function showImageHereFunc() {
-  var total_file = document.getElementById("uploadImageFile").files.length;
+function showImageHereFuncAddPost() {
+  var total_file = document.getElementById("uploadImageFileAddPost").files
+    .length;
   for (var i = 0; i < total_file; i++) {
-    $("#showImageHere").append(
+    $("#showImageHereAddPost").append(
       "<div class='card' style='width: 20rem;'>" +
         "<img src='" +
         URL.createObjectURL(event.target.files[i]) +
@@ -79,5 +74,5 @@ function showImageHereFunc() {
     );
   }
 }
-
-*/
+/*
+ */

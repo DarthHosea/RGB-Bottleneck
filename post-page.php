@@ -303,7 +303,7 @@ if (isset($_GET['id'])) {
 
                                 while ($relatePost = mysqli_fetch_assoc($resultsOfRelated)) {
                                 ?>
-                                    <?php $titleTrimmed =  mb_strimwidth($relatePost['post_content'], 0, 20, "..."); ?>
+                                    <?php $titleTrimmed =  mb_strimwidth($relatePost['post_title'], 0, 40, "..."); ?>
                                     <li class="media my-4 shadow-2-strong border-bottom pb-3">
                                         <img width="50" height="50" class="d-flex mr-3" src="img/<?php echo $post_manuf ?>.jpg " alt="An image">
                                         <div class="media-body">

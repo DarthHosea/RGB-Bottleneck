@@ -34,6 +34,19 @@ if (isset($_POST['signup'])) {
     $password_2 = mysqli_real_escape_string($conn, $_POST['password_2']);
 
 
+
+    $letNumCheck = array('AbCd1zyZ9', $password_1);
+    foreach ($letNumCheck as $testcase) {
+        if (!ctype_alnum($testcase)) {
+            array_push($errors, "Lozinka se može sastojati samo od slova i brojki");
+        }
+    }
+
+
+    if (strlen($password_1) < 6) {
+        array_push($errors, "Lozinka se mora sastojati od bar 7 brojki i/ili slova");
+    }
+
     // form validation: ensure that the form is correctly filled ...
     // by adding (array_push()) corresponding error unto $errors array
     if (empty($firstName)) {

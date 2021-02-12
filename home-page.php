@@ -37,7 +37,7 @@ include("includes/navbar.php");
                     <h2 class="text-danger fw-bold shadow-lg" style="font-weight: bold;">AMD</h2>
                     <?php
                     $manu = 'AMD';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? ORDER BY post_id DESC LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();
@@ -111,7 +111,7 @@ include("includes/navbar.php");
                     <h2 class="text-success fw-bold shadow-lg" style="font-weight: bold;">Nvidia</h2>
                     <?php
                     $manu = 'Nvidia';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? ORDER BY post_id DESC LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();
@@ -180,7 +180,7 @@ include("includes/navbar.php");
                     <h2 class="text-primary fw-bold shadow-lg" style="font-weight: bold;">Intel</h2>
                     <?php
                     $manu = 'Intel';
-                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? LIMIT 5');
+                    $query = $conn->prepare('SELECT * FROM posts WHERE manufacturer = ? ORDER BY post_id DESC LIMIT 5');
                     $query->bind_param('s', $manu);
                     $query->execute();
                     $results = $query->get_result();

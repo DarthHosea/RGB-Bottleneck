@@ -5,7 +5,8 @@
                 <div class="row">
                     <div class="col-sm-6 text-left">
                         <h5 class="card-category">Ukupan broj</h5>
-                        <h2 class="card-title">Statistike</h2>
+                        <h2 class="card-title"><i class="tim-icons icon-send text-success"></i>Statistike</h2>
+
                     </div>
                     <div class="col-sm-6">
                         <div class="btn-group btn-group-toggle float-right text-success" data-toggle="buttons">
@@ -48,7 +49,7 @@
         <div class="card card-chart">
             <div class="card-header">
                 <h5 class="card-category">Objave</h5>
-                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> Proizvođači</h3>
+                <h3 class="card-title"><i class="tim-icons icon-notes text-info"></i> Proizvođači</h3>
             </div>
             <div class="card-body">
                 <div class="chart-area">

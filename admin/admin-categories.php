@@ -2,7 +2,7 @@
 include_once("includes/db.php");
 include_once("includes/functions.php");
 include_once("includes/admin-header.php");
-
+ob_start();
 ?>
 
 
@@ -15,36 +15,24 @@ include_once("includes/admin-header.php");
             Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
              -->
             <?php
-
-            include_once("includes/admin-sidebar.php");
-
+            include("includes/admin-sidebar.php");
             ?>
         </div>
         <div class="main-panel">
-
             <!-- Navbar -->
             <?php
-            include_once("includes/admin-navbar.php");
-
-
+            include("includes/admin-navbar.php");
             ?>
             <!-- End Navbar -->
-
             <div class="content">
                 <?php
-
                 if (isset($_POST['create_category'])) {
-
-
                     $queryResult = createCategory();
                     confirmQuery($queryResult);
                     echo '<div class="alert alert-success" role="alert">
 Kategorija je uspješno dodana.
 </div>';
                 }
-
-                ?>
-                <?php
                 if (isset($_POST['edit_category'])) {
                     if (isset($_GET['edit_cat'])) {
                         $category = $_POST['category'];
@@ -52,7 +40,6 @@ Kategorija je uspješno dodana.
                         $stmtImages = $conn->prepare("UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
                         $stmtImages->bind_param("si", $category, $cat_id);
                         $stmtImages->execute();
-
                         header("location: admin-categories.php");
                     } else {
                         echo '<div class="alert alert-danger" role="alert">
@@ -60,8 +47,6 @@ Nije odabrana kategorija za promjenu.
 </div>';
                     }
                 }
-
-
                 ?>
                 <div class="row">
                     <div class="col-lg-4 col-md-12">

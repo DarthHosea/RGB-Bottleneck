@@ -226,6 +226,7 @@
                                     $imageId = $row['id'];
                                     $image = $row['name'];
                                 ?>
+
                                  <img src="images/<?php echo $image ?>" alt="">
                                  <a href="admin-posts.php?deleteImage=<?php echo $imageId ?>"><button type="button" class="btn btn-primary">Izbriši</button></a>
                              <?php
@@ -235,12 +236,9 @@
 
                          </div>
 
-                         <div class="form-group">
 
-                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-                             <button type="submit" class="btn btn-primary" name="edit_post">Spremi promjene</button>
 
-                         </div>
+
                      </form>
                  </div>
 
@@ -269,9 +267,9 @@
                  <div class="card-body">
                      <form class="needs-validation" action="" method="post" enctype="multipart/form-data" name="add_images" novalidate>
                          <div class="form-row">
-                             <input type="hidden" value="<?php echo $post_id ?>" name="post_id">
+                             <input type="hidden" value="<?php echo $post_id ?>" name="post_id" id="post_id">
                              <label for="uploadImageFile"> &nbsp; Slike: &nbsp; </label>
-                             <input class="form-control" type="file" id="uploadImageFile" name="uploadImageFile[]" onchange="showImageHereFunc();" multiple required />
+                             <input class="form-control" type="file" id="uploadImageFileEditPost<?php echo $post_id ?>" name="uploadImageFile[]" onchange="showImageHereFuncAddImageToPost(<?php echo $post_id ?>);" multiple required />
                              <label for="showImageHere">Preview slika</label>
                              <div class="valid-feedback">
                                  Super!
@@ -280,7 +278,7 @@
                                  Slike su obavezne.
                              </div>
                              <div class="col-md-10 mx-auto mt-3">
-                                 <div id="showImageHere"></div>
+                                 <div id="showImageHereFuncAddImageToPost<?php echo $post_id ?>"></div>
                              </div>
                          </div>
                          <button type="submit" class="btn btn-primary" name="add_images" value="Add Post">Kreiraj</button>

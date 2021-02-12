@@ -75,7 +75,7 @@ function createPost()
         }
         */
         // Check file size
-        if ($_FILES["uploadImageFile"]["size"][$i] > 3333310000000) {
+        if ($_FILES["uploadImageFile"]["size"][$i] > 50000000) {
             echo '<div class="alert alert-danger" role="alert">
         Slika je prevelika
       </div>';;
@@ -111,38 +111,44 @@ function createPost()
     // IMAGE UPLOAD
     if ($checker === count($_FILES["uploadImageFile"]["name"])) {
         // prepare and bind
-        $stmt = $conn->prepare("INSERT INTO posts (post_category_id,post_title,post_author,post_date,post_content,post_status,manufacturer) VALUES (?, ?, ?,?,?,?,?)");
-        $stmt->bind_param("isissss", $post_category_id, $post_title, $post_author, $post_date, $post_content, $post_status, $post_manufacturer);
+        $stmt = $conn->prepare("INSERT INTO posts (post_category_id,post_title,post_author,post_date,post_content,manufacturer) VALUES (?, ?, ?,?,?,?)");
+        $stmt->bind_param("isisss", $post_category_id, $post_title, $post_author, $post_date, $post_content, $post_manufacturer);
+        if ($stmt->execute()) {
+            $post_id = mysqli_insert_id($conn);
+
+            $target_dir = "./images/";
+            for ($i = 0; $i < count($_FILES["uploadImageFile"]["name"]); $i++) {
+
+                $uploadfile = $_FILES["uploadImageFile"]["tmp_name"][$i];
+                $fileName = $_FILES["uploadImageFile"]["name"][$i];
+                $target_file = $target_dir . $uploadfile;
+                $rng = 1;
+                $newfilename = date('dmYHis') . str_replace(" ", "", basename($_FILES["uploadImageFile"]["name"][$i]));
+                while (file_exists($target_dir . $newfilename)) {
+                    $newfilename = $newfilename . $rng;
+                    $rng++;
+                }
 
 
-        $stmt->execute();
-        $post_id = mysqli_insert_id($conn);
+                if (move_uploaded_file($uploadfile, "$target_dir" . $newfilename)) {
 
-        $target_dir = "./images/";
-        for ($i = 0; $i < count($_FILES["uploadImageFile"]["name"]); $i++) {
-
-            $uploadfile = $_FILES["uploadImageFile"]["tmp_name"][$i];
-            $fileName = $_FILES["uploadImageFile"]["name"][$i];
-            $target_file = $target_dir . $uploadfile;
-            $newfilename = date('dmYHis') . str_replace(" ", "", basename($_FILES["uploadImageFile"]["name"][$i]));
-
-
-
-            if (move_uploaded_file($uploadfile, "$target_dir" . $newfilename)) {
-
-                $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
-                $stmtImages->bind_param("si", $newfilename, $post_id);
-                $stmtImages->execute();
-                echo '<div class="alert alert-success" role="alert">
-    Slika ' .  htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . ' je uspješno postavljena
-  </div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">
-        Greška sa postavljanjem slike.
-      </div>';;
+                    $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
+                    $stmtImages->bind_param("si", $newfilename, $post_id);
+                    $stmtImages->execute();
+                } else {
+                    echo '<div class="alert alert-danger" role="alert">
+                    Greška sa postavljanjem slike.
+                        </div>';
+                }
             }
+            echo '<div class="alert alert-success" role="alert">
+            Objava uspješno postavljena.
+          </div>';
+        } else {
+            echo '<div class="alert alert-danger" role="alert">
+        Greška sa postavljanjem objave.
+      </div>';;
         }
-        return true;
     } else {
         echo '<div class="alert alert-danger" role="alert">
         Greška sa postavljanjem slike.
@@ -163,13 +169,13 @@ function updatePost()
     $post_status = htmlentities($_POST['status']);
 
     if ($post_category_id != 0) {
-        $stmt = $conn->prepare("UPDATE posts SET post_category_id = ?,post_title= ?,post_content=?,post_status=?,manufacturer=? WHERE post_id = ?");
-        $stmt->bind_param("issssi", $post_category_id, $post_title, $post_content, $post_status, $post_manufacturer, $id);
+        $stmt = $conn->prepare("UPDATE posts SET post_category_id = ?,post_title= ?,post_content=?,manufacturer=? WHERE post_id = ?");
+        $stmt->bind_param("isssi", $post_category_id, $post_title, $post_content, $post_manufacturer, $id);
         $stmt->execute();
         return true;
     } else {
-        $stmt = $conn->prepare("UPDATE posts SET post_title= ?,post_content=?,post_status=?,manufacturer=? WHERE post_id = ?");
-        $stmt->bind_param("ssssi",  $post_title, $post_content, $post_status, $post_manufacturer, $id);
+        $stmt = $conn->prepare("UPDATE posts SET post_title= ?,post_content=?,manufacturer=? WHERE post_id = ?");
+        $stmt->bind_param("sssi",  $post_title, $post_content, $post_manufacturer, $id);
         $stmt->execute();
         return true;
     }
@@ -206,7 +212,7 @@ function addImages()
         }
 
         // Check file size
-        if ($_FILES["uploadImageFile"]["size"][$i] > 3333310000000) {
+        if ($_FILES["uploadImageFile"]["size"][$i] > 50000000) {
             echo "Sorry, your file is too large.";
             $uploadOk = 0;
         }
@@ -246,8 +252,12 @@ function addImages()
             $uploadfile = $_FILES["uploadImageFile"]["tmp_name"][$i];
             $fileName = $_FILES["uploadImageFile"]["name"][$i];
             $target_file = $target_dir . $uploadfile;
+            $rng = 1;
             $newfilename = date('dmYHis') . str_replace(" ", "", basename($_FILES["uploadImageFile"]["name"][$i]));
-
+            while (file_exists($target_dir . $newfilename)) {
+                $newfilename = $newfilename . $rng;
+                $rng++;
+            }
 
 
             if (move_uploaded_file($uploadfile, "$target_dir" . $newfilename)) {
@@ -255,7 +265,8 @@ function addImages()
                 $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
                 $stmtImages->bind_param("si", $newfilename, $post_id);
                 $stmtImages->execute();
-                echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
+                //echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
+
             } else {
                 echo '<div class="alert alert-danger" role="alert">
                 Greška sa postavljanjem slike.
@@ -301,5 +312,22 @@ function confirmQuery($create_post_query)
     global $conn;
     if (!$create_post_query) {
         die("QUERY FAILED" . mysqli_error($conn));
+    }
+}
+
+
+function confirmQuery1($create_post_query)
+{
+    global $conn;
+    if (!$create_post_query) {
+        echo
+            '<div class="alert alert-danger" role="alert">
+                                                <strong> Greška u postavljanju objave </strong>
+                                            </div>';
+        die("QUERY FAILED" . mysqli_error($conn));
+    } else {
+        echo '<div class="alert alert-success" role="alert">
+    Objava je uspješno dodana
+  </div>';
     }
 }

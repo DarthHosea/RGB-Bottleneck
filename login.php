@@ -41,7 +41,7 @@ if (isset($_POST['login'])) {
         if (mysqli_num_rows($results) == 1) {
             $_SESSION['username'] = $username;
             $_SESSION['user_id'] = $user_id;
-            $_SESSION['success'] = "You are now logged in";
+            // $_SESSION['success'] = "You are now logged in";
             if ($user_role == 'Admin') {
                 $_SESSION['role'] = 'admin';
             }

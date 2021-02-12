@@ -4,9 +4,9 @@
 <script src="./assets/js/core/bootstrap.min.js"></script>
 <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 <script src="./assets/js/core/javascript.js"></script>
+
 <!--  Google Maps Plugin    -->
 <!-- Place this tag in your head or just before your close body tag. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <!-- Chart JS -->
 <script src="./assets/js/plugins/chartjs.min.js"></script>
 <!--  Notifications Plugin    -->
@@ -14,6 +14,7 @@
 <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="./assets/js/black-dashboard.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
 <script src="./assets/demo/demo.js"></script>
+
 <script>
     $(document).ready(function() {
         $().ready(function() {
@@ -139,6 +140,36 @@
             token: "ee6fab19c5a04ac1a32a645abde4613a",
             application: "black-dashboard-free"
         });
+</script>
+<script>
+    function showImageHereFuncAddPost() {
+        $("#showImageHereAddPost").empty();
+        var total_file = document.getElementById("uploadImageFileAddPost").files
+            .length;
+        for (var i = 0; i < total_file; i++) {
+            $("#showImageHereAddPost").append(
+
+                "<img src='" +
+                URL.createObjectURL(event.target.files[i]) +
+                "' height='200px' width=' 400px' style='border-style: solid; border-color:rgb(225,78,202);border-width:1px ' class='mr-2 mb-2'>"
+            );
+        }
+    }
+
+    function showImageHereFuncAddImageToPost(id) {
+
+        $("#showImageHereFuncAddImageToPost" + id).empty();
+        var total_file = document.getElementById("uploadImageFileEditPost" + id).files
+            .length;
+        for (var i = 0; i < total_file; i++) {
+            $("#showImageHereFuncAddImageToPost" + id).append(
+
+                "<img src='" +
+                URL.createObjectURL(event.target.files[i]) +
+                "' height='200px' width=' 400px' style='border-style: solid; border-color:rgb(225,78,202);border-width:1px ' class='mr-2 mb-2'>"
+            );
+        }
+    }
 </script>
 <script>
     // $('.modal-content').css('margin-top', '-' + (Math.floor((window.innerHeight - $('.modal-content')[0].innerHeight) / 4) + 'px'));

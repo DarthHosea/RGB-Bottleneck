@@ -82,6 +82,23 @@ $user_role = $row["user_role"];
                                 $userId = $_SESSION['user_id'];
 
 
+
+
+                                if (!empty($password_1)) {
+                                    $letNumCheck = array('AbCd1zyZ9', $password_1);
+                                    foreach ($letNumCheck as $testcase) {
+                                        if (!ctype_alnum($testcase)) {
+                                            array_push($errors, "Lozinka se može sastojati samo od slova i brojki");
+                                        }
+                                    }
+
+
+                                    if (strlen($password_1) < 6) {
+                                        array_push($errors, "Lozinka se mora sastojati od bar 7 brojki i/ili slova");
+                                    }
+                                }
+
+
                                 // form validation: ensure that the form is correctly filled ...
                                 // by adding (array_push()) corresponding error unto $errors array
                                 if (empty($firstName)) {
@@ -167,6 +184,12 @@ Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
                                 if (count($errors) == 0 && $uploadOk == 1) {
 
                                     $user_image = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
+                                    $i = 1;
+                                    while (file_exists($target_dir . $user_image)) {
+                                        $user_image = $user_image . $i;
+                                        $i++;
+                                    }
+
                                     $target_file = $target_dir . $user_image;
                                     move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
                                     if ($password_1 != '') {
@@ -323,7 +346,7 @@ Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
                                     <div class="col-lg-5 col-md-12 ml-2">
                                         <label for="uploadImageFile"> &nbsp; Slika: &nbsp; </label>
                                         <div class="md-form">
-                                            <input class="form-control" type="file" name="fileToUpload" id="uploadImageFile" onchange="showImageHereFunc1();">
+                                            <input class="form-control" type="file" name="fileToUpload" id="uploadImageFile" onchange="showImageHereFunc();">
                                         </div>
 
                                         <label for="showImageHere">Preview slike</label>
@@ -376,7 +399,7 @@ Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
         </div>
     </div>
     <script>
-        function showImageHereFunc1() {
+        function showImageHereFunc() {
             $("#showImageHere").empty();
             var total_file = document.getElementById("uploadImageFile").files.length;
             var last = total_file - 1;

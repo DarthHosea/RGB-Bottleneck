@@ -15,12 +15,25 @@ if (isset($_GET['delete'])) {
 <?php
 if (isset($_GET['deleteImage'])) {
     $image_id = $_GET['deleteImage'];
+
+    $getName = $conn->prepare('SELECT * FROM images WHERE id = ?');
+    $getName->bind_param('i', $image_id);
+    $getName->execute();
+    $resultImage = $getName->get_result();
+    $imageName = mysqli_fetch_assoc($resultImage);
+
     $stmtImages = $conn->prepare("DELETE FROM images WHERE id = ? ");
     $stmtImages->bind_param("i", $image_id);
-    $stmtImages->execute();
-    echo '<div class="alert alert-success" role="alert">
-    Slike su uspješno obrisane
+    if ($stmtImages->execute()) {
+        unlink('images/' . $imageName['name']);
+
+        $_SESSION['success'] = 'Slika je uspješno obrisana';
+        header("location: admin-posts.php");
+    } else {
+        echo '<div class="alert alert-danger" role="alert">
+    Greška u brisanju.
   </div>';
+    }
 }
 
 
