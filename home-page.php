@@ -80,7 +80,7 @@ include("includes/navbar.php");
                             <div class="card-body">
                                 <!--Title-->
                                 <div class="row" style="margin-left: 10px;">
-                                    <h4 class="card-title float-left"><?php echo $row['post_title'] ?></h4>
+                                    <h4 class="card-title mr-3"><?php echo $row['post_title'] ?></h4>
                                 </div>
 
                                 <!--Text-->

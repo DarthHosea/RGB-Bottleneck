@@ -128,15 +128,20 @@ Korisnik uspješno obrisan.
                                     <td><?php echo $user_lastname ?></td>
                                     <td><?php echo $user_email ?></td>
                                     <td><?php echo $user_role ?></td>
+
+                                    <?php
+                                    if ($user_id == $_SESSION['user_id']) {
+                                        $userAdmin = 'disabled';
+                                    } else {
+                                        $userAdmin = '';
+                                    }
+                                    ?>
+
                                     <td class="td-actions text-center">
 
-                                        <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal3<?php echo $user_id ?>">
+                                        <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon <?php echo $userAdmin ?>" data-toggle="modal" data-target="#exampleModal3<?php echo $user_id ?>">
                                             <i class="tim-icons icon-settings"></i>
                                         </button>
-
-
-
-
                                     </td>
                                     <td class="td-actions text-center">
 
@@ -145,7 +150,7 @@ Korisnik uspješno obrisan.
                                         </button>
                                     </td>
                                     <td class="td-actions text-center">
-                                        <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon" data-toggle="modal" data-target="#exampleModal1<?php echo $user_id ?>">
+                                        <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-icon <?php echo $userAdmin ?>" data-toggle="modal" data-target="#exampleModal1<?php echo $user_id ?>">
                                             <i class="tim-icons icon-simple-remove"></i>
                                         </button>
 

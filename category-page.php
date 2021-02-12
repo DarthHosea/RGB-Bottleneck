@@ -152,7 +152,7 @@ if ($manufacturer == 'AMD') {
                         <a class="page-link" href="<?php if ($page <= 1) {
                                                         echo '#';
                                                     } else {
-                                                        echo '?page=' . $prev;
+                                                        echo '?page=' . $prev . '&manufacturer=' . $manufacturer;
                                                     } ?> " aria-label="Previous">
                             <span aria-hidden="true"> &lArr;</span>
                             <span class="sr-only">Previous</span>
@@ -188,7 +188,7 @@ if ($manufacturer == 'AMD') {
                         <a class="page-link" href="<?php if ($page >= $totoalPages) {
                                                         echo '#';
                                                     } else {
-                                                        echo '?page=' . $next;
+                                                        echo '?page=' . $next . '&manufacturer=' . $manufacturer;
                                                     } ?> " aria-label="Next">
                             <span aria-hidden="true">&rArr;</span>
                             <span class="sr-only">Next</span>
