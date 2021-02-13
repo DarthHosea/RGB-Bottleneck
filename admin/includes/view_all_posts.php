@@ -4,6 +4,9 @@ if (isset($_GET['delete'])) {
     $sql = "DELETE FROM posts WHERE post_id = $post_id "; // SQL with parameters
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+    $prevUrl = $_SESSION['prevUrl'];
+    header("location: $prevUrl ");
+    unset($_SESSION['prevUrl']);
     echo '<div class="alert alert-success" role="alert">
     Objava je uspješno obrisana
   </div>';
@@ -28,7 +31,9 @@ if (isset($_GET['deleteImage'])) {
         unlink('images/' . $imageName['name']);
 
         $_SESSION['success'] = 'Slika je uspješno obrisana';
-        header("location: admin-posts.php");
+        $prevUrl = $_SESSION['prevUrl'];
+        header("location: $prevUrl ");
+        unset($_SESSION['prevUrl']);
     } else {
         echo '<div class="alert alert-danger" role="alert">
     Greška u brisanju.

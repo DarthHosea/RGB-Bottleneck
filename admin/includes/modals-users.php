@@ -12,6 +12,7 @@
                  Jeste li sigurni da želite obrisati ovog korisnika?
              </div>
              <div class="modal-footer">
+                 <?php $_SESSION['prevUrl'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
                  <a href="admin-users.php?delete=<?php echo $user_id ?>"><button type="button" class="btn btn-primary">Izbriši</button></a>
 
@@ -37,6 +38,7 @@
                  Jeste li sigurni da želite promjeniti ovlasti ovog korisnika?
              </div>
              <div class="modal-footer">
+                 <?php $_SESSION['prevUrl'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
                  <a href="admin-users.php?edit=<?php echo $user_id ?>&role=<?php echo $user_role ?>"><button type="button" class="btn btn-primary">Promjena</button></a>
 

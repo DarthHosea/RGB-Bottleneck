@@ -12,6 +12,7 @@
                  Jeste li sigurni da želite obrisati ovu objavu?
              </div>
              <div class="modal-footer">
+                 <?php $_SESSION['prevUrl'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
                  <a href="admin-posts.php?delete=<?php echo $post_id ?>"><button type="button" class="btn btn-primary">Izbriši</button></a>
 
@@ -127,7 +128,7 @@
 
                                 ?>
                              <label for="inputState">Kategorija ( Trenutna kategorija: <?php echo $cat_title ?>)</label>
-                             <select class="custom-select" id="inputState" class="form-control" name="category">
+                             <select class="custom-select" id="inputState" class="form-control" name="category" style="background-color: gray;">
                                  <option value=<?php echo 0  ?>>...</option>
                                  <?php
                                     $sql1 = "SELECT * FROM categories"; // SQL with parameters
@@ -135,7 +136,7 @@
 
                                     $stmt1->execute();
                                     $result1 = $stmt1->get_result(); // get the mysqli result
-                                    $user1 = $result1->fetch_assoc(); // fetch data 
+
                                     while ($row1 = mysqli_fetch_assoc($result1)) {
 
                                         $cat_title = $row1["cat_title"];
@@ -154,31 +155,7 @@
 
                              </select>
                          </div>
-                         <div class="form-group ">
-                             <label for="inputState">Status</label>
-                             <select class="custom-select" id="inputState" class="form-control" name="status">
-                                 <?php
-                                    if ($post_status == 'Zabranjen') {
-                                    ?>
-                                     <option value="Zabranjen">Zabranjen</option>
-                                     <option value="Objavljen">Objavljen</option>
 
-
-                                 <?php
-                                    } else {
-                                    ?>
-                                     <option value="Objavljen">Objavljen</option>
-                                     <option value="Zabranjen">Zabranjen</option>
-
-
-                                 <?php
-                                    }
-
-
-                                    ?>
-
-                             </select>
-                         </div>
                          <div class="form-group">
 
                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>

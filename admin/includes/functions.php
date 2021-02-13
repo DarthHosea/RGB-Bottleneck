@@ -164,9 +164,7 @@ function updatePost()
     $post_title = htmlentities($_POST['post_title']);
     $post_content = htmlentities($_POST['post_content']);
     $post_category_id = htmlentities($_POST['category']);
-
     $post_manufacturer = htmlentities($_POST['manufacturer']);
-    $post_status = htmlentities($_POST['status']);
 
     if ($post_category_id != 0) {
         $stmt = $conn->prepare("UPDATE posts SET post_category_id = ?,post_title= ?,post_content=?,manufacturer=? WHERE post_id = ?");
@@ -265,8 +263,6 @@ function addImages()
                 $stmtImages = $conn->prepare("INSERT INTO images (name,post_id) VALUES (?,?)");
                 $stmtImages->bind_param("si", $newfilename, $post_id);
                 $stmtImages->execute();
-                //echo "The file " . htmlspecialchars(basename($_FILES["uploadImageFile"]["name"][$i])) . " has been uploaded.";
-
             } else {
                 echo '<div class="alert alert-danger" role="alert">
                 Greška sa postavljanjem slike.

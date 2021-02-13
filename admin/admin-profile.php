@@ -197,22 +197,30 @@ Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
                                             $password = md5($password_1); //encrypt the password before saving in the database
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_password = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $username, $password, $user_image);
-                                            displaySuccessMessage();
+                                            if ($query->execute()) {
+                                                displaySuccessMessage();
+                                            }
                                         } else {
                                             $password = md5($password_1); //encrypt the password before saving in the database
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_password = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $password, $user_image);
-                                            displaySuccessMessage();
+                                            if ($query->execute()) {
+                                                displaySuccessMessage();
+                                            }
                                         }
                                     } else {
                                         if ($username != '') {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ?,user_image = ?");
                                             $query->bind_param("sssss", $firstName, $lastName, $username,  $user_image);
-                                            displaySuccessMessage();
+                                            if ($query->execute()) {
+                                                displaySuccessMessage();
+                                            }
                                         } else {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,user_image = ? WHERE user_id = $userId");
                                             $query->bind_param("sss", $firstName, $lastName,  $user_image);
-                                            displaySuccessMessage();
+                                            if ($query->execute()) {
+                                                displaySuccessMessage();
+                                            }
                                         }
                                     }
                                 } elseif (count($errors) == 0 && $uploadOk == 2) {
@@ -368,34 +376,7 @@ Nepodržan format slike,podržano je:JPG,JPEG,PNG i GIF.
 
 
             </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                About Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="copyright">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>2018 made with <i class="tim-icons icon-heart-2"></i> by
-                        <a href="javascript:void(0)" target="_blank">Creative Tim</a> for a better web.
-                    </div>
-                </div>
-            </footer>
+
         </div>
     </div>
     <script>

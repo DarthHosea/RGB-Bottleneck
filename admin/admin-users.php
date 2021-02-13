@@ -21,7 +21,9 @@ if (isset($_GET['edit'])) {
     $stmtImages = $conn->prepare("UPDATE users SET user_role = ? WHERE user_id = ? ");
     $stmtImages->bind_param("si", $role, $user_id);
     $stmtImages->execute();
-    header("location: admin-users.php");
+    $prevUrl = $_SESSION['prevUrl'];
+    header("location: $prevUrl ");
+    unset($_SESSION['prevUrl']);
 }
 
 
@@ -55,6 +57,9 @@ if (isset($_GET['edit'])) {
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();
+                    $prevUrl = $_SESSION['prevUrl'];
+                    header("location: $prevUrl ");
+                    unset($_SESSION['prevUrl']);
                     echo '<div class="alert alert-success" role="alert">
 Korisnik uspješno obrisan.
 </div>';
@@ -239,34 +244,7 @@ Korisnik uspješno obrisan.
 
 
             </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                About Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="copyright">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>2018 made with <i class="tim-icons icon-heart-2"></i> by
-                        <a href="javascript:void(0)" target="_blank">Creative Tim</a> for a better web.
-                    </div>
-                </div>
-            </footer>
+
         </div>
     </div>
 

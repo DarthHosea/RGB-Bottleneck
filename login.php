@@ -43,7 +43,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user_id'] = $user_id;
             // $_SESSION['success'] = "You are now logged in";
             if ($user_role == 'Admin') {
-                $_SESSION['role'] = 'admin';
+                $_SESSION['role'] = 'Admin';
             }
             header('location: home-page.php');
         } else {
@@ -99,7 +99,7 @@ if (isset($_POST['login'])) {
                                     Super!
                                 </div>
                                 <div class="invalid-feedback">
-                                    Molimo unesite ime.
+                                    Molimo unesite lozinku.
                                 </div>
                             </div>
                             <?php

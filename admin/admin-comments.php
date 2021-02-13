@@ -2,7 +2,7 @@
 include_once("includes/db.php");
 include_once("includes/functions.php");
 include_once("includes/admin-header.php");
-
+ob_start();
 ?>
 
 
@@ -36,6 +36,9 @@ include_once("includes/admin-header.php");
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();
+                    $prevUrl = $_SESSION['prevUrl'];
+                    header("location: $prevUrl ");
+                    unset($_SESSION['prevUrl']);
                     echo '<div class="alert alert-success" role="alert">
 Komentar je uspješno obrisan.
 </div>';
@@ -120,9 +123,10 @@ Komentar je uspješno obrisan.
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Jeste li sigurni da želite obrisati ovog korisnika?
+                                                    Jeste li sigurni da želite obrisati ovaj komentar?
                                                 </div>
                                                 <div class="modal-footer">
+                                                    <?php $_SESSION['prevUrl'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
                                                     <a href="admin-comments.php?delete=<?php echo $comment_id ?>"><button type="button" class="btn btn-primary">Izbriši</button></a>
 
@@ -176,7 +180,7 @@ Komentar je uspješno obrisan.
                             <li class="page-item <?php if ($page == $i) {
                                                         echo 'active';
                                                     }  ?>">
-                                <a class="page-link" href="<?php echo 'admin-users.php?page=' . $i ?>"><?php echo $i ?>
+                                <a class="page-link" href="<?php echo 'admin-comments.php?page=' . $i ?>"><?php echo $i ?>
                                     <?php if ($page == $i) {
                                     ?>
                                         <span class="sr-only">(current)</span>
@@ -210,34 +214,7 @@ Komentar je uspješno obrisan.
 
 
             </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                About Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                Blog
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="copyright">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>2018 made with <i class="tim-icons icon-heart-2"></i> by
-                        <a href="javascript:void(0)" target="_blank">Creative Tim</a> for a better web.
-                    </div>
-                </div>
-            </footer>
+
         </div>
     </div>
 

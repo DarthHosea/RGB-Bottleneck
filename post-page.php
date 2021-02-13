@@ -164,37 +164,50 @@ if (isset($_GET['id'])) {
 
 
                     <!--/.Card-->
-                    <!--Reply-->
-                    <div class="card mb-3 wow fadeIn">
-                        <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold comment_header">Postavite komentar</div>
-                        <div class="card-body">
 
-                            <!-- Default form reply -->
-                            <form method="post" id="commentForm">
+                    <?php
+                    if (isset($_SESSION['user_id'])) {
+                    ?>
+                        <!--Reply-->
+                        <div class="card mb-3 wow fadeIn">
+                            <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold comment_header">Postavite komentar</div>
+                            <div class="card-body">
 
-                                <!-- Comment -->
-                                <div class="form-group">
-                                    <span id="message"></span>
-                                    <label for="replyFormComment">Vaš komentar</label>
-                                    <textarea name="comment_content" class="form-control" id="replyFormComment" rows="5"></textarea>
-                                </div>
-                                <input type="hidden" name="comment_author" value="<?php echo $_SESSION['user_id'] ?>">
-                                <input type="hidden" name="post_id" value="<?php echo $_GET['id'] ?>">
+                                <!-- Default form reply -->
+                                <form method="post" id="commentForm">
 
-
-
-                                <div class="text-center mt-4">
-                                    <button onclick="showComments()" class="btn btn-<?php echo $color ?>  btn-md" name="submit" id="submit" type="submit">Objavi</button>
-                                </div>
-                            </form>
-                            <span id="comment_message"></span>
-                            <!-- Default form reply -->
+                                    <!-- Comment -->
+                                    <div class="form-group">
+                                        <span id="message"></span>
+                                        <label for="replyFormComment">Vaš komentar</label>
+                                        <textarea name="comment_content" class="form-control" id="replyFormComment" rows="5"></textarea>
+                                    </div>
+                                    <input type="hidden" name="comment_author" value="<?php echo $_SESSION['user_id'] ?>">
+                                    <input type="hidden" name="post_id" value="<?php echo $_GET['id'] ?>">
 
 
 
+                                    <div class="text-center mt-4">
+                                        <button onclick="showComments()" class="btn btn-<?php echo $color ?>  btn-md" name="submit" id="submit" type="submit">Objavi</button>
+                                    </div>
+                                </form>
+                                <span id="comment_message"></span>
+                                <!-- Default form reply -->
+
+
+
+                            </div>
                         </div>
-                    </div>
-                    <!--/.Reply-->
+                        <!--/.Reply-->
+
+
+                    <?php
+                    }
+
+
+
+                    ?>
+
                     <!--Comments-->
                     <div class="card card-comments  mb-3 wow fadeIn">
                         <div class="card-header bg-<?php echo $color ?> text-white font-weight-bold">Komentari</span></div>

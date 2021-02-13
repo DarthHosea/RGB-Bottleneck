@@ -22,7 +22,58 @@ include("includes/navbar.php");
     <div class="container">
 
 
+        <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
 
+                <div class="carousel-item active border border-danger ">
+                    <a href="category-page.php?manufacturer=AMD">
+                        <img class="d-block w-100" src="img/AMD-Car.png" alt="First slide">
+                    </a>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 class="text-danger fw-bold shadow-lg" style="font-weight: bold;">AMD</h2>
+                        <h5 class="text-danger fw-bold shadow-lg" style="font-weight: bold;">Big Navi - ZEN 3 - Threadripper</h5>
+
+                    </div>
+
+
+                </div>
+
+                <div class="carousel-item border border-success">
+                    <a href="category-page.php?manufacturer=Nvidia">
+
+                        <img class="d-block w-100" src="img/Nvidia-Car.jpg" alt="Second slide">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h2 class="text-success fw-bold shadow-lg" style="font-weight: bold;">Nvidia</h2>
+                            <h5 class="text-success fw-bold shadow-lg" style="font-weight: bold;">RTX 3000</h5>
+
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-item border border-primary">
+                    <a href="category-page.php?manufacturer=Intel">
+                        <img class="d-block w-100" src="img/Intel-Car.png" alt="Third slide">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h2 class="text-primary fw-bold shadow-lg" style="font-weight: bold;">Intel</h2>
+                            <h5 class="text-primary fw-bold shadow-lg" style="font-weight: bold;">11th Gen</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
 
 
         <!--Section: Cards-->
