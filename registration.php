@@ -150,6 +150,10 @@ if (isset($_POST['signup'])) {
         <div class="alert alert-success" role="alert" style="margin-top:50px">
         Uspješna registracija,kliknite <a href="login.php" class="alert-link">ovdje</a> za prijavu.
         </div>';
+        unset($_SESSION['usernameTry']);
+        unset($_SESSION['email']);
+        unset($_SESSION['firstName']);
+        unset($_SESSION['lastName']);
     } else {
         $_SESSION['usernameTry'] = $username;
         $_SESSION['email'] = $email;
@@ -260,7 +264,7 @@ if (isset($_POST['signup'])) {
                                 <input name="password_1" type="password" id="materialRegisterFormPassword" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock" required oninvalid="this.setCustomValidity('Lozinka je obavezna!')" oninput="this.setCustomValidity('')">
                                 <label for="materialRegisterFormPassword">Lozinka</label>
                                 <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-                                    At least 8 characters and 1 digit
+                                    Najmanje 7 znakova
                                 </small>
                                 <div class="valid-feedback">
                                     Super!
@@ -276,7 +280,7 @@ if (isset($_POST['signup'])) {
                                 <input name="password_2" type="password" id="materialRegisterFormPassword" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock" required oninvalid="this.setCustomValidity('Ponovljena lozinka je obavezna!')" oninput="this.setCustomValidity('')">
                                 <label for="materialRegisterFormPassword">Ponovi Lozinku</label>
                                 <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-                                    At least 8 characters and 1 digit
+                                    Najmanje 7 znakova
                                 </small>
                                 <div class="valid-feedback">
                                     Super!

@@ -2,7 +2,7 @@
 include_once("includes/db.php");
 include_once("includes/functions.php");
 include_once("includes/admin-header.php");
-
+ob_start();
 ?>
 
 
@@ -54,6 +54,11 @@ if (isset($_GET['edit'])) {
                 if (isset($_GET['delete'])) {
                     $user_id = $_GET['delete'];
                     $sql = "DELETE FROM users WHERE user_id = ? ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+
+                    $sql = "DELETE FROM comments WHERE comment_author = ? ";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();

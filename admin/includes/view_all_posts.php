@@ -91,15 +91,7 @@ if (isset($_POST['add_images'])) {
         </tr>
     </thead>
     <tbody>
-
-
-
         <?php
-
-
-
-
-
         $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
         $sql = $conn->prepare("SELECT * FROM posts");
         $sql->execute();
@@ -111,16 +103,12 @@ if (isset($_POST['add_images'])) {
         $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
         $prev = $page - 1;
         $next = $page + 1;
-
         // Offset
         $paginationStart = ($page - 1) * $limit;
-
         // Limit query
         $sql = $conn->prepare("SELECT * FROM posts LIMIT $paginationStart, $limit");
         $sql->execute();
         $resultsCat = $sql->get_result();
-
-
         //$user = $result->fetch_assoc(); // fetch data 
         while ($row = mysqli_fetch_assoc($resultsCat)) {
 
@@ -144,8 +132,14 @@ if (isset($_POST['add_images'])) {
             $stmt2 = $conn->prepare($sql2);
             $stmt2->execute();
             $result3 = $stmt2->get_result(); // get the mysqli result
-            $userAuthor = mysqli_fetch_assoc($result3);
-            $userAuthorName = $userAuthor['username'];
+            if (mysqli_num_rows($result3) == 0) {
+                $userAuthorName = 'Nepoznat';
+            } else {
+                $userAuthor = mysqli_fetch_assoc($result3);
+                $userAuthorName = $userAuthor['username'];
+            }
+
+
             //$query2 = "SELECT * FROM users WHERE user_id = $post_author";
             //$select_users_id = mysqli_query($connection, $query2);
 

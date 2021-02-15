@@ -4,6 +4,7 @@
 include_once("includes/header.php");
 include("includes/db.php");
 include("includes/functions.php");
+
 ?>
 
 
@@ -236,6 +237,9 @@ if (!isset($_SESSION['user_id'])) {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?,username = ? WHERE user_id = ?");
                                             $query->bind_param("sssi", $firstName, $lastName, $username,  $userId);
                                             $query->execute();
+                                            $_SESSION['username'] = $username;
+                                            $successMessage = 'Podaci uspješno promjenjeni';
+                                            displaySuccessMessage($successMessage);
                                         } else {
                                             $query = $conn->prepare("UPDATE users SET user_firstname = ?,user_lastname = ?  WHERE user_id = ?");
                                             $query->bind_param("ssi", $firstName, $lastName,  $userId);
@@ -261,7 +265,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="form-row">
                                     <div class="col-lg-5 col-md-12  mb-3 ml-5 ">
                                         <label for="inputAddress">Korisničko ime</label>
-                                        <input name="username" type="text" class="form-control " id="post_title" oninvalid="this.setCustomValidity('Unesite naslov!')" oninput="this.setCustomValidity('')" placeholder="<?php echo $username1 ?>">
+                                        <input name="username" type="text" class="form-control " id="post_title" oninvalid="this.setCustomValidity('Unesite naslov!')" oninput="this.setCustomValidity('')" placeholder="<?php echo $_SESSION['username'] ?>">
                                         <div class="valid-feedback">
                                             Super!
                                         </div>

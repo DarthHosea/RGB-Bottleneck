@@ -36,17 +36,7 @@ if (isset($_GET['id'])) {
     }
 }
 
-
-
 ?>
-
-
-
-
-
-
-
-
 
 </header>
 <!--Main Navigation-->
@@ -73,36 +63,22 @@ if (isset($_GET['id'])) {
 
                     ?>
                     <!--Featured Image-->
-                    <div class="card mb-4 wow fadeIn">
+                    <div class="card mb-4 wow fadeIn border border-<?php echo $color ?> rounded" ">
 
-                        <img src="admin/images/<?php echo $row1['name'] ?>" class="img-fluid" alt="">
+                        <img src=" admin/images/<?php echo $row1['name'] ?>" class="img-fluid" alt="">
                         <div class="border border-<?php echo $color ?> rounded" style="position: absolute;z-index:3;bottom:0;background-color:white;width:100%;height:50px">
-                            <p style="font-size: 30px;font-weigth:20" class=" text-<?php echo $color ?> mt-1 ml-2"><?php echo $row['post_title'] ?></p>
+
+                            <p style="font-size: 30px;font-weight:600" class=" text-<?php echo $color ?> mt-1 ml-2"><?php echo $row['post_title'] ?></p>
                         </div>
                     </div>
                     <!--/.Featured Image-->
-
-
-
                     <!--Card-->
                     <div class="card mb-4 wow fadeIn">
-
                         <!--Card content-->
                         <div class="card-body">
-
-
-
-
-
-
                             <p><?php echo $row['post_content'] ?></p>
-
-
-
                         </div>
-
                     </div>
-
                     <?php
                     $postIdd = $row['post_id'];
                     $query = $conn->prepare('SELECT * FROM images WHERE post_id = ?');
@@ -144,13 +120,22 @@ if (isset($_GET['id'])) {
                             $getPostAuthor->bind_param('i', $user_id);
                             $getPostAuthor->execute();
                             $getPostAuthorName = $getPostAuthor->get_result();
-                            $row2 = mysqli_fetch_assoc($getPostAuthorName);
+                            if (mysqli_num_rows($getPostAuthorName) == 0) {
+                                $userAuthorName = 'Nepoznat';
+                            } else {
+                                $userAuthor = mysqli_fetch_assoc($getPostAuthorName);
+                                $userAuthorName = $userAuthor['username'];
+                            }
+
 
                             ?>
                             <div class="media d-block d-md-flex mt-3">
-                                <img class="d-flex mb-3 mx-auto z-depth-1" src="userImages/<?php echo $row2['user_image'] ?>" alt="Generic placeholder image" style="width: 100px;">
+                                <?php if (mysqli_num_rows($getPostAuthorName) != 0) {
+                                ?>
+                                    <img class="d-flex mb-3 mx-auto z-depth-1" src="userImages/<?php echo $userAuthor['user_image'] ?>" alt="Generic placeholder image" style="width: 100px;">
+                                <?php } ?>
                                 <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                    <h5 class="mt-0 font-weight-bold"><?php echo $row2['username'] ?>
+                                    <h5 class="mt-0 font-weight-bold"><?php echo $userAuthorName ?>
                                     </h5>
 
                                 </div>
@@ -159,9 +144,6 @@ if (isset($_GET['id'])) {
                         </div>
 
                     </div>
-
-
-
 
                     <!--/.Card-->
 
